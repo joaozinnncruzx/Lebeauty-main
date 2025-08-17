@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Le Beauty</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(252, 249, 249, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2 class="text-center">Faça login na sua Conta</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-success btn-block">Entrar</button>
+            <p class="text-center mt-3">Não tem uma conta? <a href="cadastro.html">Cadastre-se aqui</a></p>
+        </form>
+    </div>
+    <aside class="footerHolder overflow-hidden bg-lightGray pt-xl-23 pb-xl-8 pt-lg-10 pb-lg-8 pt-md-12 pb-md-8 pt-10">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-lg-4 mb-lg-0 mb-4">
+                    <h3 class="headingVI fwEbold text-uppercase mb-7">Contate-nos</h3>
+                    <ul class="list-unstyled footerContactList mb-3">
+                        <li class="mb-3 d-flex flex-nowrap pr-xl-20 pr-0"><span class="icon icon-place mr-3"></span> <address class="fwEbold m-0">Endereço: R. Rio Xingú, 1172 - Iguaçu, Fazenda Rio Grande - PR, 83833-542.</address></li>
+                        <li class="mb-3 d-flex flex-nowrap"><span class="icon icon-phone mr-3"></span> <span class="leftAlign">Número : <a href="javascript:void(0);">(41) 9 8846-3759</a></span></li>
+                        <li class="email d-flex flex-nowrap"><span class="icon icon-email mr-2"></span> <span class="leftAlign">Email:  <a href="javascript:void(0);">lebeautystore@gmail.com</a></span></li>
+                    </ul>
+                    <ul class="list-unstyled followSocailNetwork d-flex flex-nowrap">
+                        <li class="fwEbold mr-xl-11 mr-md-8 mr-3">Siga-nos:</li>
+                        <li class="mr-xl-6 mr-md-5 mr-2"><a href="javascript:void(0);" class="fab fa-instagram"></a></li>
+                    </ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </aside>
+</main>
+<footer id="footer" class="overflow-hidden bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 copyRightHolder v-II text-center pt-md-3 pb-md-4 py-2">
+                <p class="mb-0">Le beauty <a href="javascript:void(0);"></a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+
+<script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+            
+            // Aqui você pode adicionar a lógica de validação de email e senha, se tiver
+            // Para este exemplo, apenas redirecionaremos
+            
+            window.location.href = 'home2.html'; // Redireciona para a página inicial
+        });
+    </script>
+</body>
+</html>

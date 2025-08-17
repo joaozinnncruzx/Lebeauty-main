@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido Confirmado - Le beauty</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/fontawesome.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/plugins.css">
+    <link rel="stylesheet" href="css/color.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .order-confirmation-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .order-confirmation-container h1 {
+            color: #28a745;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .order-confirmation-container p {
+            font-size: 1.1rem;
+            color: #555;
+        }
+        .order-summary {
+            margin-top: 30px;
+            text-align: left;
+        }
+        .order-summary h2 {
+            font-size: 1.8rem;
+            color: #333;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .order-summary ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .order-summary ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .order-summary .total {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 20px;
+        }
+        .back-to-home-btn {
+            margin-top: 30px;
+            padding: 10px 30px;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="pageWrapper">
+        <header id="header" class="position-relative">
+            <div class="headerHolderCol pt-lg-4 pb-lg-5 py-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <a href="javascript:void(0);" class="tel d-flex align-items-end"><i class="icon-call mr-2"></i> Telefone para contato: (41) 9 8846-3759</a>
+                        </div>
+                        <div class="col-12 col-sm-4 text-center">
+                            <span class="txt d-block">Bem vindo ao Le beauty</span>
+                        </div>
+                        <div class="col-12 col-sm-4">
+                            <ul class="nav nav-tabs langListII justify-content-end border-bottom-0">
+                                <li class="dropdown">
+                                    <span>Moeda: </span>
+                                    <a class="d-inline dropdown-toggle text-uppercase" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="true" aria-expanded="false">R$</a>
+                                    <div class="dropdown-menu text-uppercase pl-4 pr-4 border-0">
+                                        <a class="dropdown-item" href="javascript:void(0);">R$</a>
+                                    </div>
+                                </li>
+                                <li class="dropdown m-0">
+                                    <span>Idioma: </span>
+                                    <a class="d-inline dropdown-toggle text-uppercase" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="true" aria-expanded="false">BR</a>
+                                    <div class="dropdown-menu pl-4 pr-4">
+                                        <a class="dropdown-item" href="javascript:void(0);">Português</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="headerHolder container pt-lg-5 pb-lg-7 py-4">
+                <div class="row">
+                    <div class="col-6 col-sm-2">
+                        <div class="logo">
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-7 col-lg-8 static-block">
+                        <div class="mainHolder pt-lg-5 pt-3 justify-content-center">
+                            <nav class="navbar navbar-expand-lg navbar-light p-0 pageNav2 position-static">
+                                <button type="button" class="navbar-toggle collapsed position-relative" data-toggle="collapse" data-target="#navbarNav" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarNav">
+                                    <ul class="navbar-nav mx-auto text-uppercase d-inline-block">
+                                        <li class="nav-item">
+                                            <a class="d-block" href="home2.html">Página inicial</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="d-block" href="shop.html">Produtos</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-lg-2">
+                        <ul class="nav nav-tabs wishListII pt-5 justify-content-end border-bottom-0">
+                            <li class="nav-item"><a href="cart-minimalist.html" class="text-secondary"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span id="cart-count" class="badge badge-danger badge-pill">0</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="order-confirmation-container">
+                <h1><i class="fa fa-check-circle" style="color: #28a745;"></i> Pedido Confirmado!</h1>
+                <p>Obrigado pela sua compra. Seu pedido foi recebido com sucesso e está sendo processado.</p>
+                
+                <div class="order-summary" id="order-summary">
+                    </div>
+
+                <a href="home2.html" class="btn btn-primary back-to-home-btn">Voltar para a Página Inicial</a>
+            </section>
+        </main>
+    </div>
+    
+    <aside class="footerHolder overflow-hidden bg-lightGray pt-xl-23 pb-xl-8 pt-lg-10 pb-lg-8 pt-md-12 pb-md-8 pt-10">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-lg-4 mb-lg-0 mb-4">
+                    <h3 class="headingVI fwEbold text-uppercase mb-7">Contate-nos</h3>
+                    <ul class="list-unstyled footerContactList mb-3">
+                        <li class="mb-3 d-flex flex-nowrap pr-xl-20 pr-0"><span class="icon icon-place mr-3"></span> <address class="fwEbold m-0">Endereço: R. Rio Xingú, 1172 - Iguaçu, Fazenda Rio Grande - PR, 83833-542.</address></li>
+                        <li class="mb-3 d-flex flex-nowrap"><span class="icon icon-phone mr-3"></span> <span class="leftAlign">Número : <a href="javascript:void(0);">(41) 9 8846-3759</a></span></li>
+                        <li class="email d-flex flex-nowrap"><span class="icon icon-email mr-2"></span> <span class="leftAlign">Email:  <a href="javascript:void(0);">lebeautystore@gmail.com</a></span></li>
+                    </ul>
+                    <ul class="list-unstyled followSocailNetwork d-flex flex-nowrap">
+                        <li class="fwEbold mr-xl-11 mr-md-8 mr-3">Siga-nos:</li>
+                        <li class="mr-xl-6 mr-md-5 mr-2"><a href="javascript:void(0);" class="fab fa-instagram"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <footer id="footer" class="overflow-hidden bg-dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 copyRightHolder v-II text-center pt-md-3 pb-md-4 py-2">
+                    <p class="mb-0">Le beauty <a href="javascript:void(0);"></a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jqueryCustome.js"></script>
+    <script src="order-confirmed.js"></script>
+</body>
+</html>

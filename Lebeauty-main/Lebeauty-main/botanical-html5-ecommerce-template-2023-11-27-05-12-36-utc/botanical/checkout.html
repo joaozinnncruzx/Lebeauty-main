@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Compra - Le beauty</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/fontawesome.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/plugins.css">
+    <link rel="stylesheet" href="css/color.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <style>
+        /* Estilos adicionados para a logo de fundo */
+        body {
+            background-image: url('images/image_4202c0.jpg'); /* Caminho para a sua logo */
+            background-size: cover; /* Ajusta a imagem para cobrir toda a área */
+            background-position: center; /* Centraliza a imagem */
+            background-repeat: no-repeat; /* Evita que a imagem se repita */
+            background-attachment: fixed; /* Fixa a imagem de fundo durante a rolagem */
+        }
+
+        .form-control {
+            background-color: white !important;
+            border-color: #ced4da;
+        }
+        
+        .form-control:focus {
+            border-color: #FFC0CB !important;
+            box-shadow: none !important;
+        }
+
+        .btn-success {
+            border-color: #FFC0CB !important;
+            background-color: #FFC0CB !important;
+        }
+    </style>
+    
+</head>
+<body>
+    <div id="pageWrapper">
+        <header id="header" class="position-relative">
+            <div class="headerHolderCol pt-lg-4 pb-lg-5 py-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <a href="javascript:void(0);" class="tel d-flex align-items-end"><i class="icon-call mr-2"></i> Telefone para contato: (41) 9 8846-3759</a>
+                        </div>
+                        <div class="col-12 col-sm-4 text-center">
+                            <span class="txt d-block">Bem vindo ao Le beauty</span>
+                        </div>
+                        <div class="col-12 col-sm-4">
+                            <ul class="nav nav-tabs langListII justify-content-end border-bottom-0">
+                                <li class="dropdown">
+                                    <span>Moeda: </span>
+                                    <a class="d-inline dropdown-toggle text-uppercase" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="true" aria-expanded="false">R$</a>
+                                    <div class="dropdown-menu text-uppercase pl-4 pr-4 border-0">
+                                        <a class="dropdown-item" href="javascript:void(0);">R$</a>
+                                    </div>
+                                </li>
+                                <li class="dropdown m-0">
+                                    <span>Idioma: </span>
+                                    <a class="d-inline dropdown-toggle text-uppercase" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="true" aria-expanded="false">BR</a>
+                                    <div class="dropdown-menu pl-4 pr-4">
+                                        <a class="dropdown-item" href="javascript:void(0);">Português</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="headerHolder container pt-lg-5 pb-lg-7 py-4">
+                <div class="row">
+                    <div class="col-6 col-sm-2">
+                        <div class="logo">
+                            <img src="images/image_41a7f0.jpg" alt="Le beauty Logo">
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-7 col-lg-8 static-block">
+                        <div class="mainHolder pt-lg-5 pt-3 justify-content-center">
+                            <nav class="navbar navbar-expand-lg navbar-light p-0 pageNav2 position-static">
+                                <button type="button" class="navbar-toggle collapsed position-relative" data-toggle="collapse" data-target="#navbarNav" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarNav">
+                                    <ul class="navbar-nav mx-auto text-uppercase d-inline-block">
+                                        <li class="nav-item">
+                                            <a class="d-block" href="home2.html">Página inicial</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="d-block" href="shop.html">Produtos</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-lg-2">
+                        <ul class="nav nav-tabs wishListII pt-5 justify-content-end border-bottom-0">
+                            <li class="nav-item"><a href="cart-minimalist.html" class="text-secondary"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span id="cart-count" class="badge badge-danger badge-pill">0</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="container my-5">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2>Endereço de Entrega</h2>
+                        <div id="address-container">
+                            <ul id="address-list" class="list-group mb-4"></ul>
+                            <button id="add-address-btn" class="btn btn-outline-secondary mb-3">Adicionar Novo Endereço</button>
+                            <form id="address-form" style="display:none;">
+                                <div class="form-group">
+                                <div class="form-group">
+                                <label for="address-neighborhood">Bairro</label>
+                                <input type="text" class="form-control" id="address-neighborhood" required>
+                            </div>
+                                    <label for="address-street">Rua</label>
+                                    <input type="text" class="form-control" id="address-street" required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="address-number">Número</label>
+                                        <input type="text" class="form-control" id="address-number" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="address-complement">Complemento</label>
+                                        <input type="text" class="form-control" id="address-complement">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address-city">Cidade</label>
+                                    <input type="text" class="form-control" id="address-city" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address-state">Estado</label>
+                                    <input type="text" class="form-control" id="address-state" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address-zip">CEP</label>
+                                    <input type="text" class="form-control" id="address-zip" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Salvar Endereço</button>
+                                <button type="button" class="btn btn-secondary" id="cancel-address-btn">Cancelar</button>
+                            </form>
+                        </div>
+
+                        <hr class="my-5">
+
+                        <h2>Informações de Pagamento</h2>
+                        
+                        <hr class="my-5">
+
+                        <div class="form-group">
+                            <label for="payment-method-select">Método de Pagamento</label>
+                            <select id="payment-method-select" class="form-control">
+                                <option value="credit">Cartão de Crédito</option>
+                                <option value="debit">Cartão de Débito</option>
+                            </select>
+                        </div>
+
+                        <div id="payment-options-container">
+                            <div id="credit-form" class="payment-form">
+                                <div class="form-group">
+                                    <label for="card-number">Número do Cartão</label>
+                                    <input type="text" class="form-control" id="card-number" placeholder="XXXX-XXXX-XXXX-XXXX">
+                                </div>
+                                <div class="form-group">
+                                    <label for="card-name">Nome no Cartão</label>
+                                    <input type="text" class="form-control" id="card-name" placeholder="Nome Completo">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="expiry-date">Validade</label>
+                                        <input type="text" class="form-control" id="expiry-date" placeholder="MM/AA">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="cvv">CVV</label>
+                                        <input type="text" class="form-control" id="cvv" placeholder="XXX">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="card-installments">Parcelas</label>
+                                    <select id="card-installments" class="form-control"></select>
+                                </div>
+                            </div>
+
+                            <div id="debit-form" class="payment-form" style="display:none;">
+                                <div class="form-group">
+                                    <label for="debit-card-number">Número do Cartão de Débito</label>
+                                    <input type="text" class="form-control" id="debit-card-number" placeholder="XXXX-XXXX-XXXX-XXXX">
+                                </div>
+                                <div class="form-group">
+                                    <label for="debit-card-name">Nome no Cartão</label>
+                                    <input type="text" class="form-control" id="debit-card-name" placeholder="Nome Completo">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="debit-expiry-date">Validade</label>
+                                        <input type="text" class="form-control" id="debit-expiry-date" placeholder="MM/AA">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="debit-cvv">CVV</label>
+                                        <input type="text" class="form-control" id="debit-cvv" placeholder="XXX">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-success btn-lg mt-4" id="confirm-order-btn">Confirmar Pedido</button>
+
+                    </div>
+                    <div class="col-md-4">
+                        <h2>Resumo do Pedido</h2>
+                        <ul id="order-summary-list" class="list-group mb-3"></ul>
+                        <div class="d-flex justify-content-between font-weight-bold">
+                            <span>Total:</span>
+                            <span id="order-total">R$ 0,00</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <aside class="footerHolder overflow-hidden bg-lightGray pt-xl-23 pb-xl-8 pt-lg-10 pb-lg-8 pt-md-12 pb-md-8 pt-10">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-lg-4 mb-lg-0 mb-4">
+                        <h3 class="headingVI fwEbold text-uppercase mb-7">Contate-nos</h3>
+                        <ul class="list-unstyled footerContactList mb-3">
+                            <li class="mb-3 d-flex flex-nowrap pr-xl-20 pr-0"><span class="icon icon-place mr-3"></span> <address class="fwEbold m-0">Endereço: R. Rio Xingú, 1172 - Iguaçu, Fazenda Rio Grande - PR, 83833-542.</address></li>
+                            <li class="mb-3 d-flex flex-nowrap"><span class="icon icon-phone mr-3"></span> <span class="leftAlign">Número : <a href="javascript:void(0);">(41) 9 8846-3759</a></span></li>
+                            <li class="email d-flex flex-nowrap"><span class="icon icon-email mr-2"></span> <span class="leftAlign">Email:  <a href="javascript:void(0);">lebeautystore@gmail.com</a></span></li>
+                        </ul>
+                        <ul class="list-unstyled followSocailNetwork d-flex flex-nowrap">
+                            <li class="fwEbold mr-xl-11 mr-md-8 mr-3">Siga-nos:</li>
+                            <li class="mr-xl-6 mr-md-5 mr-2"><a href="javascript:void(0);" class="fab fa-instagram"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <footer id="footer" class="overflow-hidden bg-dark">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 copyRightHolder v-II text-center pt-md-3 pb-md-4 py-2">
+                        <p class="mb-0">Le beauty <a href="javascript:void(0);"></a></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jqueryCustome.js"></script>
+    <script src="checkout.js"></script>
+</body>
+</html>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // --- ELEMENTOS DO DOM ---
+    const summaryList = document.getElementById('order-summary-list');
+    const totalElement = document.getElementById('order-total');
+    const cartCountElement = document.getElementById('cart-count');
+    const confirmBtn = document.getElementById('confirm-order-btn');
+    const addressList = document.getElementById('address-list');
+    const addAddressBtn = document.getElementById('add-address-btn');
+    const addressForm = document.getElementById('address-form');
+    const cancelAddressBtn = document.getElementById('cancel-address-btn');
+    const installmentsSelect = document.getElementById('card-installments'); // Elemento das parcelas
+
+    // --- LÓGICA DE PARCELAMENTO ---
+    function updateInstallmentOptions(total) {
+        installmentsSelect.innerHTML = ''; // Limpa opções antigas
+
+        if (total <= 0) {
+            const defaultOption = document.createElement('option');
+            defaultOption.textContent = 'Selecione as parcelas';
+            defaultOption.disabled = true;
+            installmentsSelect.appendChild(defaultOption);
+            return;
+        }
+
+        const maxInstallments = 12; // Máximo de parcelas
+        const interestFreeLimit = 3; // Limite de parcelas sem juros
+
+        for (let i = 1; i <= maxInstallments; i++) {
+            const option = document.createElement('option');
+            const installmentValue = total / i;
+            const formattedValue = installmentValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            
+            let text = `${i}x de ${formattedValue}`;
+            if (i <= interestFreeLimit) {
+                text += ' sem juros';
+            }
+            
+            option.value = i;
+            option.textContent = text;
+            installmentsSelect.appendChild(option);
+        }
+    }
+
+    // --- LÓGICA DO RESUMO DO PEDIDO ---
+    function loadOrderSummary() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        summaryList.innerHTML = '';
+        let total = 0;
+
+        if (cart.length === 0) {
+            summaryList.innerHTML = '<li class="list-group-item">Seu carrinho está vazio.</li>';
+            totalElement.textContent = 'R$ 0,00';
+            cartCountElement.textContent = '0';
+            updateInstallmentOptions(0); // Atualiza parcelas para o estado inicial
+            return;
+        }
+
+        let totalItems = 0;
+        cart.forEach(item => {
+            const itemElement = document.createElement('li');
+            itemElement.className = 'list-group-item d-flex justify-content-between lh-condensed';
+            const subtotal = item.price * item.quantity;
+            itemElement.innerHTML = `
+                <div>
+                    <h6 class="my-0">${item.name}</h6>
+                    <small class="text-muted">Quantidade: ${item.quantity}</small>
+                </div>
+                <span class="text-muted">${subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+            `;
+            summaryList.appendChild(itemElement);
+            total += subtotal;
+            totalItems += item.quantity;
+        });
+
+        totalElement.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        cartCountElement.textContent = totalItems;
+        updateInstallmentOptions(total); // Chama a função para atualizar as parcelas
+    }
+
+    // --- LÓGICA DE GERENCIAMENTO DE ENDEREÇOS ---
+    function removeAddress(indexToRemove) {
+        let addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+        addresses.splice(indexToRemove, 1);
+        localStorage.setItem('addresses', JSON.stringify(addresses));
+        loadAddresses();
+    }
+    
+    function loadAddresses() {
+        const addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+        addressList.innerHTML = ''; 
+
+        if (addresses.length === 0) {
+            addressList.innerHTML = '<li class="list-group-item">Nenhum endereço cadastrado.</li>';
+        } else {
+            addresses.forEach((address, index) => {
+                const addressElement = document.createElement('li');
+                addressElement.className = 'list-group-item';
+                addressElement.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="shippingAddress" id="address${index}" value="${index}" ${index === 0 ? 'checked' : ''}>
+                            <label class="form-check-label" for="address${index}">
+                                <strong>${address.street}, ${address.number}</strong> - ${address.neighborhood || ''}<br>
+                                ${address.city}, ${address.state} - CEP: ${address.zip}<br>
+                                <small>${address.complement || ''}</small>
+                            </label>
+                        </div>
+                        <button class="btn btn-danger btn-sm remove-address-btn" data-index="${index}">Remover</button>
+                    </div>
+                `;
+                addressList.appendChild(addressElement);
+            });
+        }
+    }
+
+    addAddressBtn.addEventListener('click', () => {
+        addressForm.style.display = 'block';
+        addAddressBtn.style.display = 'none';
+        addressList.style.display = 'none';
+    });
+
+    cancelAddressBtn.addEventListener('click', () => {
+        addressForm.style.display = 'none';
+        addressForm.reset();
+        addAddressBtn.style.display = 'block';
+        addressList.style.display = 'block';
+    });
+
+    addressForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const newAddress = {
+            street: document.getElementById('address-street').value,
+            number: document.getElementById('address-number').value,
+            complement: document.getElementById('address-complement').value,
+            neighborhood: document.getElementById('address-neighborhood').value, // Campo Bairro
+            city: document.getElementById('address-city').value,
+            state: document.getElementById('address-state').value,
+            zip: document.getElementById('address-zip').value
+        };
+        const addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+        addresses.push(newAddress);
+        localStorage.setItem('addresses', JSON.stringify(addresses));
+        addressForm.reset();
+        addressForm.style.display = 'none';
+        addressList.style.display = 'block';
+        loadAddresses();
+    });
+
+    addressList.addEventListener('click', function(event) {
+        if (event.target.classList.contains('remove-address-btn')) {
+            const index = parseInt(event.target.dataset.index, 10);
+            if (confirm('Tem certeza que deseja remover este endereço?')) {
+                removeAddress(index);
+            }
+        }
+    });
+
+    // --- LÓGICA DO BOTÃO DE CONFIRMAÇÃO FINAL ---
+    if (confirmBtn) {
+        confirmBtn.addEventListener('click', function() {
+            const addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+            const selectedAddress = document.querySelector('input[name="shippingAddress"]:checked');
+            if (addresses.length > 0 && !selectedAddress) {
+                 alert('Por favor, selecione um endereço de entrega.');
+                 return;
+            }
+            if (addresses.length === 0) {
+                alert('Por favor, cadastre um endereço de entrega.');
+                return;
+            }
+            localStorage.removeItem('cart'); 
+            window.location.href = 'order-confirmed.html';
+        });
+    }
+    
+    // --- INICIALIZAÇÃO DA PÁGINA ---
+    loadOrderSummary();
+    loadAddresses();
+});
+</script>

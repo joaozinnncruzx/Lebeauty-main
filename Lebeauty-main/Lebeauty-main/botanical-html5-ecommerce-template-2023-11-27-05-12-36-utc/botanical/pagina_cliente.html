@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - Le Beauty</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .profile-header {
+            background-color: #FFC0CB;
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid white;
+            margin-top: -100px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .profile-info-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn-pink {
+            background-color: #FFC0CB;
+            color: white;
+            border-color: #FFC0CB;
+        }
+        .btn-pink:hover {
+            background-color: #ff99ab;
+            border-color: #ff99ab;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-header">
+        <h1 class="display-4">Bem-vindo(a), [Nome do Cliente]!</h1>
+        <p class="lead">Esta é sua área de cliente. Aqui você pode gerenciar suas informações.</p>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="profile-info-card">
+                    <h3>Informações da Conta</h3>
+                    <hr>
+                    <p><strong>Nome:</strong> [Nome do Cliente]</p>
+                    <p><strong>Email:</strong> [Email do Cliente]</p>
+                    <button class="btn btn-sm btn-outline-secondary">Editar Perfil</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="profile-info-card">
+                    <h3>Meus Pedidos</h3>
+                    <hr>
+                    <p>Você ainda não fez nenhum pedido.</p>
+                    <a href="home2.html" class="btn btn-pink">Fazer uma compra agora!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
