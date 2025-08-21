@@ -702,3 +702,289 @@
     <script src="cart.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/fontawesome.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/plugins.css">
+    <link rel="stylesheet" href="css/color.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="cart-minimalist.css">
+
+    <style>
+        .form-control {
+            background-color: white !important;
+            border-color: #ced4da;
+        }
+        
+        .form-control:focus {
+            border-color: #FFC0CB !important;
+            box-shadow: none !important;
+        }
+
+        .btn-success {
+            border-color: #FFC0CB !important;
+            background-color: #FFC0CB !important;
+            color: #fff;
+        }
+
+        /* Estilos adicionados */
+        .headerHolderCol {
+            background-color: #FFC0CB !important;
+        }
+        .logo img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="pageWrapper">
+        <header id="header" class="position-relative">
+            <div class="headerHolderCol pt-lg-4 pb-lg-5 py-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <a href="javascript:void(0);" class="tel d-flex align-items-end"><i class="icon-call mr-2"></i> Telefone para contato: (41) 9 8846-3759</a>
+                        </div>
+                        <div class="col-12 col-sm-4 text-center">
+                            <span class="txt d-block">Bem vindo ao Le beauty</span>
+                        </div>
+                        
+                        <div class="col-12 col-sm-4"><ul class="nav nav-tabs wishListII pt-5 justify-content-end border-bottom-0">
+                                <li class="nav-item">
+                                    <a href="login.html" class="text-secondary">
+                                    <i class="fa fa-user" aria-hidden="true"></i></a>
+                                </li>
+                            <ul class="nav nav-tabs langListII justify-content-end border-bottom-0">
+                                <li class="dropdown">
+                                    <span>Moeda: </span>
+                                    <a class="d-inline dropdown-toggle text-uppercase" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="true" aria-expanded="false">R$</a>
+                                    <div class="dropdown-menu text-uppercase pl-4 pr-4 border-0">
+                                        <a class="dropdown-item" href="javascript:void(0);">R$</a>
+                                    </div>
+                                </li>
+                                <li class="dropdown m-0">
+                                    <span>Idioma: </span>
+                                    <a class="d-inline dropdown-toggle text-uppercase" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="true" aria-expanded="false">BR</a>
+                                    <div class="dropdown-menu pl-4 pr-4">
+                                        <a class="dropdown-item" href="javascript:void(0);">Português</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="headerHolder container pt-lg-5 pb-lg-7 py-4">
+                <div class="row">
+                    <div class="col-6 col-sm-2">
+                    </div>
+                    <div class="col-6 col-sm-7 col-lg-8 static-block">
+                        <div class="mainHolder pt-lg-5 pt-3 justify-content-center">
+                            <nav class="navbar navbar-expand-lg navbar-light p-0 pageNav2 position-static">
+                                <button type="button" class="navbar-toggle collapsed position-relative" data-toggle="collapse" data-target="#navbarNav" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarNav">
+                                    <ul class="navbar-nav mx-auto text-uppercase d-inline-block">
+                                        <li class="nav-item">
+                                            <a class="d-block" href="home2.html">Página inicial</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="d-block" href="shop.html">Produtos</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="d-block" href="favorites.html">Meus Favoritos</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-lg-2">
+                        <ul class="nav nav-tabs wishListII pt-5 justify-content-end border-bottom-0">
+                            <li class="nav-item"><a href="#" id="cart-icon" class="text-secondary"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span id="cart-count" class="badge badge-danger badge-pill">0</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div id="cart-popup" class="cart-popup-overlay">
+            <div class="cart-popup-content">
+                <div class="cart-popup-header">
+                    <h2>Seu Carrinho de Compras</h2>
+                    <span id="close-cart-btn">&times;</span>
+                </div>
+                <div class="cart-items" id="cart-items-container">
+                </div>
+                <div class="cart-summary">
+                    <p>Total: <span id="cart-total">R$ 0.00</span></p>
+                    <button class="btn btn-primary" id="checkout-btn">Finalizar Compra</button>
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <section class="featureSec container overflow-hidden pt-xl-12 pb-xl-9 pt-lg-10 pb-lg-4 pt-md-8 pb-md-2 pt-5">
+    <div class="row">
+        <header class="col-12 mainHeader mb-4 text-center">
+            <h1 class="headingIV playfair fwEblod mb-4">Novidades</h1>
+            <p>Venha conferir os novos produtos da nossa loja</p>
+        </header>
+    </div>
+    <div class="row" id="product-list">
+        </div>
+</section>
+    </div>
+    <div class="row" id="product-list">
+        <div class="col-12 col-sm-6 col-lg-3 featureCol position-relative mb-6">
+            <div class="border">
+                <div class="imgHolder position-relative w-100 overflow-hidden">
+                    <img src="images/Batom de brilho YSL.jpg" alt="Batom de brilho YSL" class="img-fluid w-100">
+                    <ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+                        <li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
+                        <li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" data-name="Batom de brilho YSL" data-price="269.90" data-image="images/Batom de brilho YSL.jpg"></a></li>
+                        <li class="mr-2 overflow-hidden">
+                            <a href="shop-detail.html?name=Batom de brilho YSL&price=269.90&image=images/Batom de brilho YSL.jpg&description=Este é um batom de brilho da YSL, que oferece cor intensa e um acabamento radiante, ideal para quem busca lábios volumosos e hidratados. Sua fórmula de longa duração não craquela." class="icon-eye d-block"></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1">
+                    <span class="title d-block mb-2">
+                        <a href="shop-detail.html?name=Batom de brilho YSL&price=269.90&image=images/Batom de brilho YSL.jpg&description=Este é um batom de brilho da YSL, que oferece cor intensa e um acabamento radiante, ideal para quem busca lábios volumosos e hidratados. Sua fórmula de longa duração não craquela." data-name="Batom de brilho YSL" data-price="269.90">Batom de brilho YSL</a>
+                    </span>
+                    <span class="price d-block fwEbold">R$269,90</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3 featureCol mb-6">
+            <div class="border">
+                <div class="imgHolder position-relative w-100 overflow-hidden">
+                    <img src="images/Corretivo YSL.jpg" alt="Corretivo YSL" class="img-fluid w-100">
+                    <ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+                        <li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
+                        <li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" data-name="Corretivo YSL" data-price="319.00" data-image="images/Corretivo YSL.jpg"></a></li>
+                        <li class="mr-2 overflow-hidden">
+                            <a href="shop-detail.html?name=Corretivo YSL&price=319.00&image=images/Corretivo YSL.jpg&description=O Corretivo YSL é a solução perfeita para uma pele impecável. Sua fórmula leve e de alta cobertura disfarça olheiras e imperfeições, proporcionando um acabamento natural e luminoso que dura o dia todo." class="icon-eye d-block"></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1">
+                    <span class="title d-block mb-2">
+                        <a href="shop-detail.html?name=Corretivo YSL&price=319.00&image=images/Corretivo YSL.jpg&description=O Corretivo YSL é a solução perfeita para uma pele impecável. Sua fórmula leve e de alta cobertura disfarça olheiras e imperfeições, proporcionando um acabamento natural e luminoso que dura o dia todo." data-name="Corretivo YSL" data-price="319.00">Corretivo YSL</a>
+                    </span>
+                    <span class="price d-block fwEbold">R$319,00</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3 featureCol position-relative mb-6">
+            <div class="border">
+                <div class="imgHolder position-relative w-100 overflow-hidden">
+                    <img src="images/Lip Bunny.jpg" alt="Lip Bunny" class="img-fluid w-100">
+                    <ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+                        <li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
+                        <li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" data-name="Lip Bunny" data-price="65.90" data-image="images/Lip Bunny.jpg"></a></li>
+                        <li class="mr-2 overflow-hidden">
+                            <a href="shop-detail.html?name=Lip Bunny&price=65.90&image=images/Lip Bunny.jpg&description=O Lip Bunny é um hidratante labial que adiciona uma cor suave e um brilho delicado. Perfeito para o uso diário, ele mantém os lábios macios e nutridos, com um toque de diversão e frescor." class="icon-eye d-block"></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1">
+                    <span class="title d-block mb-2">
+                        <a href="shop-detail.html?name=Lip Bunny&price=65.90&image=images/Lip Bunny.jpg&description=O Lip Bunny é um hidratante labial que adiciona uma cor suave e um brilho delicado. Perfeito para o uso diário, ele mantém os lábios macios e nutridos, com um toque de diversão e frescor." data-name="Lip Bunny" data-price="65.90">Lip Bunny</a>
+                    </span>
+                    <span class="price d-block fwEbold">R$65,90</span>
+                    <span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">Hot</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3 featureCol position-relative mb-6">
+            <div class="border">
+                <div class="imgHolder position-relative w-100 overflow-hidden">
+                    <img src="images/Iluminador dior.jpg" alt="Iluminador Dior" class="img-fluid w-100">
+                    <ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+                        <li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
+                        <li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" data-name="Iluminador Dior" data-price="399.00" data-image="images/Iluminador dior.jpg"></a></li>
+                        <li class="mr-2 overflow-hidden">
+                            <a href="shop-detail.html?name=Iluminador Dior&price=399.00&image=images/Iluminador dior.jpg&description=O Iluminador Dior é o segredo para um brilho radiante e sofisticado. Sua textura fina e sedosa se funde à pele, realçando os pontos altos do rosto com um acabamento luxuoso e duradouro." class="icon-eye d-block"></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1">
+                    <span class="title d-block mb-2">
+                        <a href="shop-detail.html?name=Iluminador Dior&price=399.00&image=images/Iluminador dior.jpg&description=O Iluminador Dior é o segredo para um brilho radiante e sofisticado. Sua textura fina e sedosa se funde à pele, realçando os pontos altos do rosto com um acabamento luxuoso e duradouro." data-name="Iluminador Dior" data-price="399.00">Iluminador Dior</a>
+                    </span>
+                    <span class="price d-block fwEbold">R$399,00</span>
+                    <span class="hotOffer green fwEbold text-uppercase text-white position-absolute d-block">Sale</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+        </main>
+    </div>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jqueryCustome.js"></script>
+    <script src="cart.js"></script>
+
+        <aside class="footerHolder overflow-hidden bg-lightGray pt-xl-23 pb-xl-8 pt-lg-10 pb-lg-8 pt-md-12 pb-md-8 pt-10">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-lg-4 mb-lg-0 mb-4">
+                    <h3 class="headingVI fwEbold text-uppercase mb-7">Contate-nos</h3>
+                    <ul class="list-unstyled footerContactList mb-3">
+                        <li class="mb-3 d-flex flex-nowrap pr-xl-20 pr-0"><span class="icon icon-place mr-3"></span> <address class="fwEbold m-0">Endereço: R. Rio Xingú, 1172 - Iguaçu, Fazenda Rio Grande - PR, 83833-542.</address></li>
+                        <li class="mb-3 d-flex flex-nowrap"><span class="icon icon-phone mr-3"></span> <span class="leftAlign">Número : <a href="javascript:void(0);">(41) 9 8846-3759</a></span></li>
+                        <li class="email d-flex flex-nowrap"><span class="icon icon-email mr-2"></span> <span class="leftAlign">Email:  <a href="javascript:void(0);">lebeautystore@gmail.com</a></span></li>
+                    </ul>
+                    <ul class="list-unstyled followSocailNetwork d-flex flex-nowrap">
+                        <li class="fwEbold mr-xl-11 mr-md-8 mr-3">Siga-nos:</li>
+                        <li class="mr-xl-6 mr-md-5 mr-2"><a href="javascript:void(0);" class="fab fa-instagram"></a></li>
+                    </ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </aside>
+</main>
+<footer id="footer" class="overflow-hidden bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 copyRightHolder v-II text-center pt-md-3 pb-md-4 py-2">
+                <p class="mb-0">Le beauty <a href="javascript:void(0);"></a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jqueryCustome.js"></script>
+</body>
+</html>

@@ -255,3 +255,1074 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ... o restante do seu código ...
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const cartIcon = document.getElementById('cart-icon');
+    const cartPopup = document.getElementById('cart-popup');
+    const closeCartBtn = document.getElementById('close-cart-btn');
+    const cartItemsContainer = document.getElementById('cart-items-container');
+    const cartCountSpan = document.getElementById('cart-count');
+    const cartTotalSpan = document.getElementById('cart-total');
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function updateCartCount() {
+        cartCountSpan.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+
+    function renderCartItems() {
+        cartItemsContainer.innerHTML = '';
+        let total = 0;
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p class="text-center">Seu carrinho está vazio.</p>';
+        } else {
+            cart.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.classList.add('cart-item');
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="item-info">
+                        <h4>${item.name}</h4>
+                        <p>R$ ${item.price.toFixed(2)}</p>
+                    </div>
+                    <div class="item-quantity">
+                        <button class="decrease-quantity" data-name="${item.name}">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="increase-quantity" data-name="${item.name}">+</button>
+                    </div>
+                    <button class="remove-item-btn" data-name="${item.name}">&times;</button>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+                total += item.price * item.quantity;
+            });
+        }
+        cartTotalSpan.textContent = `R$ ${total.toFixed(2)}`;
+    }
+
+    function saveCart() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+        renderCartItems();
+    }
+
+    // Adicionar produto ao carrinho
+    document.body.addEventListener('click', function(e) {
+        if (e.target.closest('.add-to-cart-btn')) {
+            const productElement = e.target.closest('.featureCol');
+            const productName = productElement.querySelector('.title a').textContent;
+            const productPrice = parseFloat(productElement.querySelector('.price').textContent.replace('R$', '').replace(',', '.'));
+            const productImage = productElement.querySelector('.imgHolder img').src;
+
+            const existingItem = cart.find(item => item.name === productName);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: productName,
+                    price: productPrice,
+                    image: productImage,
+                    quantity: 1
+                });
+            }
+            saveCart();
+            alert('Produto adicionado ao carrinho!');
+        }
+    });
+
+    // Lógica para o carrinho
+    if (cartIcon) {
+        cartIcon.addEventListener('click', function(e) {
+            e.preventDefault();
+            cartPopup.style.display = 'flex';
+            renderCartItems();
+        });
+    }
+
+    if (closeCartBtn) {
+        closeCartBtn.addEventListener('click', function() {
+            cartPopup.style.display = 'none';
+        });
+    }
+
+    window.addEventListener('click', function(e) {
+        if (e.target === cartPopup) {
+            cartPopup.style.display = 'none';
+        }
+    });
+
+    cartItemsContainer.addEventListener('click', function(e) {
+        const name = e.target.dataset.name;
+        if (e.target.classList.contains('increase-quantity')) {
+            const item = cart.find(item => item.name === name);
+            if (item) {
+                item.quantity += 1;
+            }
+        } else if (e.target.classList.contains('decrease-quantity')) {
+            const item = cart.find(item => item.name === name);
+            if (item && item.quantity > 1) {
+                item.quantity -= 1;
+            }
+        } else if (e.target.classList.contains('remove-item-btn')) {
+            cart = cart.filter(item => item.name !== name);
+        }
+        saveCart();
+    });
+
+    // Lógica de carregar detalhes do produto
+    const productDetailContainer = document.getElementById('product-detail-container');
+    if (productDetailContainer) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productName = urlParams.get('name');
+        const productPrice = parseFloat(urlParams.get('price'));
+        const productImage = urlParams.get('image');
+        const productDescription = urlParams.get('description');
+
+        if (productName && !isNaN(productPrice)) {
+            productDetailContainer.innerHTML = `
+                <div class="col-md-6 text-center">
+                    <img src="${productImage}" alt="${productName}" class="product-image">
+                </div>
+                <div class="col-md-6 product-info">
+                    <h1>${productName}</h1>
+                    <p class="product-price">R$ ${productPrice.toFixed(2).replace('.', ',')}</p>
+                    <p class="product-description">${productDescription}</p>
+                    <div class="quantity-control">
+                        <button id="decrease-btn">-</button>
+                        <input type="text" id="quantity-input" value="1" readonly>
+                        <button id="increase-btn">+</button>
+                    </div>
+                    <button class="btn-add-to-cart" id="add-to-cart-detail-btn" 
+                            data-name="${productName}" 
+                            data-price="${productPrice}"
+                            data-image="${productImage}">
+                        Adicionar ao Carrinho
+                    </button>
+                </div>
+            `;
+
+            // Lógica de quantidade
+            const quantityInput = document.getElementById('quantity-input');
+            const decreaseBtn = document.getElementById('decrease-btn');
+            const increaseBtn = document.getElementById('increase-btn');
+            const addToCartDetailBtn = document.getElementById('add-to-cart-detail-btn');
+            
+            decreaseBtn.addEventListener('click', () => {
+                let quantity = parseInt(quantityInput.value);
+                if (quantity > 1) {
+                    quantityInput.value = quantity - 1;
+                }
+            });
+
+            increaseBtn.addEventListener('click', () => {
+                let quantity = parseInt(quantityInput.value);
+                quantityInput.value = quantity + 1;
+            });
+
+            addToCartDetailBtn.addEventListener('click', () => {
+                const name = addToCartDetailBtn.dataset.name;
+                const price = parseFloat(addToCartDetailBtn.dataset.price);
+                const image = addToCartDetailBtn.dataset.image;
+                const quantity = parseInt(quantityInput.value);
+
+                const existingItem = cart.find(item => item.name === name);
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    cart.push({
+                        name: name,
+                        price: price,
+                        image: image,
+                        quantity: quantity
+                    });
+                }
+                saveCart();
+                alert(`${quantity} unidade(s) de ${name} adicionada(s) ao carrinho!`);
+            });
+        } else {
+            productDetailContainer.innerHTML = '<p class="text-center">Produto não encontrado.</p>';
+        }
+    }
+
+    updateCartCount();
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const cartIcon = document.getElementById('cart-icon');
+    const cartPopup = document.getElementById('cart-popup');
+    const closeCartBtn = document.getElementById('close-cart-btn');
+    const cartItemsContainer = document.getElementById('cart-items-container');
+    const cartCountSpan = document.getElementById('cart-count');
+    const cartTotalSpan = document.getElementById('cart-total');
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+    function updateCartCount() {
+        cartCountSpan.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+
+    function renderCartItems() {
+        cartItemsContainer.innerHTML = '';
+        let total = 0;
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p class="text-center">Seu carrinho está vazio.</p>';
+        } else {
+            cart.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.classList.add('cart-item');
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="item-info">
+                        <h4>${item.name}</h4>
+                        <p>R$ ${item.price.toFixed(2).replace('.', ',')}</p>
+                    </div>
+                    <div class="item-quantity">
+                        <button class="decrease-quantity" data-name="${item.name}">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="increase-quantity" data-name="${item.name}">+</button>
+                    </div>
+                    <button class="remove-item-btn" data-name="${item.name}">&times;</button>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+                total += item.price * item.quantity;
+            });
+        }
+        cartTotalSpan.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    }
+
+    function saveCart() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+        renderCartItems();
+    }
+    
+    function saveFavorites() {
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        if (document.getElementById('favorites-list')) {
+            renderFavoritesList();
+        }
+    }
+
+    function renderFavoritesList() {
+        const favoritesListContainer = document.getElementById('favorites-list');
+        if (!favoritesListContainer) return;
+
+        favoritesListContainer.innerHTML = '';
+        if (favorites.length === 0) {
+            favoritesListContainer.innerHTML = '<p class="text-center w-100">Você não tem nenhum item favorito.</p>';
+        } else {
+            favorites.forEach(product => {
+                const productElement = document.createElement('div');
+                productElement.classList.add('col-12', 'col-sm-6', 'col-lg-3', 'featureCol', 'position-relative', 'mb-6');
+                productElement.innerHTML = `
+                    <div class="border">
+                        <div class="imgHolder position-relative w-100 overflow-hidden">
+                            <img src="${product.image}" alt="${product.name}" class="img-fluid w-100">
+                            <ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+                                <li class="mr-2 overflow-hidden">
+                                    <a href="javascript:void(0);" class="icon-heart d-block remove-from-favorites-btn" data-name="${product.name}"></a>
+                                </li>
+                                <li class="mr-2 overflow-hidden">
+                                    <a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" 
+                                       data-name="${product.name}" 
+                                       data-price="${product.price}" 
+                                       data-image="${product.image}"></a>
+                                </li>
+                                <li class="mr-2 overflow-hidden">
+                                    <a href="shop-detail.html?name=${encodeURIComponent(product.name)}&price=${product.price}&image=${encodeURIComponent(product.image)}&description=${encodeURIComponent(product.description || '')}" class="icon-eye d-block"></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1">
+                            <span class="title d-block mb-2">
+                                <a href="shop-detail.html?name=${encodeURIComponent(product.name)}&price=${product.price}&image=${encodeURIComponent(product.image)}&description=${encodeURIComponent(product.description || '')}">${product.name}</a>
+                            </span>
+                            <span class="price d-block fwEbold">R$${product.price.toFixed(2).replace('.', ',')}</span>
+                        </div>
+                    </div>
+                `;
+                favoritesListContainer.appendChild(productElement);
+            });
+        }
+    }
+
+    // Adicionar produto ao carrinho
+    document.body.addEventListener('click', function(e) {
+        if (e.target.closest('.add-to-cart-btn')) {
+            const btn = e.target.closest('.add-to-cart-btn');
+            const productName = btn.dataset.name;
+            const productPrice = parseFloat(btn.dataset.price);
+            const productImage = btn.dataset.image;
+
+            const existingItem = cart.find(item => item.name === productName);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: productName,
+                    price: productPrice,
+                    image: productImage,
+                    quantity: 1
+                });
+            }
+            saveCart();
+            alert('Produto adicionado ao carrinho!');
+        }
+    });
+
+    // Lógica para o carrinho
+    if (cartIcon) {
+        cartIcon.addEventListener('click', function(e) {
+            e.preventDefault();
+            cartPopup.style.display = 'flex';
+            renderCartItems();
+        });
+    }
+
+    if (closeCartBtn) {
+        closeCartBtn.addEventListener('click', function() {
+            cartPopup.style.display = 'none';
+        });
+    }
+
+    window.addEventListener('click', function(e) {
+        if (e.target === cartPopup) {
+            cartPopup.style.display = 'none';
+        }
+    });
+
+    cartItemsContainer.addEventListener('click', function(e) {
+        const name = e.target.dataset.name;
+        if (e.target.classList.contains('increase-quantity')) {
+            const item = cart.find(item => item.name === name);
+            if (item) {
+                item.quantity += 1;
+            }
+        } else if (e.target.classList.contains('decrease-quantity')) {
+            const item = cart.find(item => item.name === name);
+            if (item && item.quantity > 1) {
+                item.quantity -= 1;
+            }
+        } else if (e.target.classList.contains('remove-item-btn')) {
+            cart = cart.filter(item => item.name !== name);
+        }
+        saveCart();
+    });
+
+    // Lógica de favoritos
+    document.body.addEventListener('click', function(e) {
+        const heartBtn = e.target.closest('.icon-heart');
+        if (heartBtn) {
+            e.preventDefault();
+            const productElement = e.target.closest('.featureCol');
+            const productName = productElement.querySelector('.title a').textContent.trim();
+            const productPrice = parseFloat(productElement.querySelector('.price').textContent.replace('R$', '').replace(',', '.'));
+            const productImage = productElement.querySelector('.imgHolder img').src;
+            const productLink = productElement.querySelector('.title a').href;
+            const urlParams = new URLSearchParams(productLink.substring(productLink.indexOf('?')));
+            const productDescription = urlParams.get('description');
+
+            const existingFav = favorites.find(item => item.name === productName);
+
+            if (heartBtn.classList.contains('remove-from-favorites-btn')) {
+                // Remover dos favoritos
+                favorites = favorites.filter(item => item.name !== productName);
+                alert(`"${productName}" removido dos favoritos.`);
+            } else {
+                // Adicionar aos favoritos
+                if (existingFav) {
+                    alert(`"${productName}" já está nos favoritos!`);
+                } else {
+                    favorites.push({
+                        name: productName,
+                        price: productPrice,
+                        image: productImage,
+                        description: productDescription
+                    });
+                    alert(`"${productName}" adicionado aos favoritos!`);
+                }
+            }
+            saveFavorites();
+        }
+    });
+
+    // Lógica de carregar detalhes do produto
+    const productDetailContainer = document.getElementById('product-detail-container');
+    if (productDetailContainer) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productName = urlParams.get('name');
+        const productPrice = parseFloat(urlParams.get('price'));
+        const productImage = urlParams.get('image');
+        const productDescription = urlParams.get('description');
+
+        if (productName && !isNaN(productPrice)) {
+            productDetailContainer.innerHTML = `
+                <div class="col-md-6 text-center">
+                    <img src="${decodeURIComponent(productImage)}" alt="${decodeURIComponent(productName)}" class="product-image">
+                </div>
+                <div class="col-md-6 product-info">
+                    <h1>${decodeURIComponent(productName)}</h1>
+                    <p class="product-price">R$ ${productPrice.toFixed(2).replace('.', ',')}</p>
+                    <p class="product-description">${decodeURIComponent(productDescription || '')}</p>
+                    <div class="quantity-control">
+                        <button id="decrease-btn">-</button>
+                        <input type="text" id="quantity-input" value="1" readonly>
+                        <button id="increase-btn">+</button>
+                    </div>
+                    <button class="btn-add-to-cart" id="add-to-cart-detail-btn" 
+                            data-name="${decodeURIComponent(productName)}" 
+                            data-price="${productPrice}"
+                            data-image="${decodeURIComponent(productImage)}">
+                        Adicionar ao Carrinho
+                    </button>
+                </div>
+            `;
+
+            const quantityInput = document.getElementById('quantity-input');
+            const decreaseBtn = document.getElementById('decrease-btn');
+            const increaseBtn = document.getElementById('increase-btn');
+            const addToCartDetailBtn = document.getElementById('add-to-cart-detail-btn');
+            
+            decreaseBtn.addEventListener('click', () => {
+                let quantity = parseInt(quantityInput.value);
+                if (quantity > 1) {
+                    quantityInput.value = quantity - 1;
+                }
+            });
+
+            increaseBtn.addEventListener('click', () => {
+                let quantity = parseInt(quantityInput.value);
+                quantityInput.value = quantity + 1;
+            });
+
+            addToCartDetailBtn.addEventListener('click', () => {
+                const name = addToCartDetailBtn.dataset.name;
+                const price = parseFloat(addToCartDetailBtn.dataset.price);
+                const image = addToCartDetailBtn.dataset.image;
+                const quantity = parseInt(quantityInput.value);
+
+                const existingItem = cart.find(item => item.name === name);
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    cart.push({
+                        name: name,
+                        price: price,
+                        image: image,
+                        quantity: quantity
+                    });
+                }
+                saveCart();
+                alert(`${quantity} unidade(s) de ${name} adicionada(s) ao carrinho!`);
+            });
+        } else {
+            productDetailContainer.innerHTML = '<p class="text-center w-100">Produto não encontrado.</p>';
+        }
+    }
+
+    renderFavoritesList();
+    updateCartCount();
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const cartIcon = document.getElementById('cart-icon');
+    const cartPopup = document.getElementById('cart-popup');
+    const closeCartBtn = document.getElementById('close-cart-btn');
+    const cartItemsContainer = document.getElementById('cart-items-container');
+    const cartCountSpan = document.getElementById('cart-count');
+    const cartTotalSpan = document.getElementById('cart-total');
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+    // Array de produtos para carregar a página inicial
+    const productsData = [
+        {
+            name: "Batom de brilho YSL",
+            price: 269.90,
+            image: "images/Batom de brilho YSL.jpg",
+            description: "Este é um batom de brilho da YSL, que oferece cor intensa e um acabamento radiante, ideal para quem busca lábios volumosos e hidratados. Sua fórmula de longa duração não craquela."
+        },
+        {
+            name: "Corretivo YSL",
+            price: 319.00,
+            image: "images/Corretivo YSL.jpg",
+            description: "O Corretivo YSL é a solução perfeita para uma pele impecável. Sua fórmula leve e de alta cobertura disfarça olheiras e imperfeições, proporcionando um acabamento natural e luminoso que dura o dia todo."
+        },
+        {
+            name: "Lip Bunny",
+            price: 65.90,
+            image: "images/Lip Bunny.jpg",
+            description: "O Lip Bunny é um hidratante labial que adiciona uma cor suave e um brilho delicado. Perfeito para o uso diário, ele mantém os lábios macios e nutridos, com um toque de diversão e frescor."
+        },
+        {
+            name: "Iluminador Dior",
+            price: 399.00,
+            image: "images/Iluminador dior.jpg",
+            description: "O Iluminador Dior é o segredo para um brilho radiante e sofisticado. Sua textura fina e sedosa se funde à pele, realçando os pontos altos do rosto com um acabamento luxuoso e duradouro."
+        }
+    ];
+
+    function updateCartCount() {
+        cartCountSpan.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+
+    function renderCartItems() {
+        cartItemsContainer.innerHTML = '';
+        let total = 0;
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p class="text-center">Seu carrinho está vazio.</p>';
+        } else {
+            cart.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.classList.add('cart-item');
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="item-info">
+                        <h4>${item.name}</h4>
+                        <p>R$ ${item.price.toFixed(2).replace('.', ',')}</p>
+                    </div>
+                    <div class="item-quantity">
+                        <button class="decrease-quantity" data-name="${item.name}">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="increase-quantity" data-name="${item.name}">+</button>
+                    </div>
+                    <button class="remove-item-btn" data-name="${item.name}">&times;</button>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+                total += item.price * item.quantity;
+            });
+        }
+        cartTotalSpan.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    }
+
+    function saveCart() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+        renderCartItems();
+    }
+    
+    function saveFavorites() {
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        if (document.getElementById('favorites-list')) {
+            renderFavoritesList();
+        }
+    }
+
+    function renderFavoritesList() {
+        const favoritesListContainer = document.getElementById('favorites-list');
+        if (!favoritesListContainer) return;
+
+        favoritesListContainer.innerHTML = '';
+        if (favorites.length === 0) {
+            favoritesListContainer.innerHTML = '<p class="text-center w-100">Você não tem nenhum item favorito.</p>';
+        } else {
+            favorites.forEach(product => {
+                const productElement = document.createElement('div');
+                productElement.classList.add('col-12', 'col-sm-6', 'col-lg-3', 'featureCol', 'position-relative', 'mb-6');
+                productElement.innerHTML = `
+                    <div class="border">
+                        <div class="imgHolder position-relative w-100 overflow-hidden">
+                            <img src="${product.image}" alt="${product.name}" class="img-fluid w-100">
+                            <ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+                                <li class="mr-2 overflow-hidden">
+                                    <a href="javascript:void(0);" class="icon-heart d-block remove-from-favorites-btn" data-name="${product.name}"></a>
+                                </li>
+                                <li class="mr-2 overflow-hidden">
+                                    <a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" 
+                                       data-name="${product.name}" 
+                                       data-price="${product.price}" 
+                                       data-image="${product.image}"></a>
+                                </li>
+                                <li class="mr-2 overflow-hidden">
+                                    <a href="shop-detail.html?name=${encodeURIComponent(product.name)}&price=${product.price}&image=${encodeURIComponent(product.image)}&description=${encodeURIComponent(product.description || '')}" class="icon-eye d-block"></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1">
+                            <span class="title d-block mb-2">
+                                <a href="shop-detail.html?name=${encodeURIComponent(product.name)}&price=${product.price}&image=${encodeURIComponent(product.image)}&description=${encodeURIComponent(product.description || '')}">${product.name}</a>
+                            </span>
+                            <span class="price d-block fwEbold">R$${product.price.toFixed(2).replace('.', ',')}</span>
+                        </div>
+                    </div>
+                `;
+                favoritesListContainer.appendChild(productElement);
+            });
+        }
+    }
+
+    // Função para renderizar os produtos na página inicial
+    function renderProducts() {
+        const productListContainer = document.getElementById('product-list');
+        if (!productListContainer) return;
+
+        productListContainer.innerHTML = '';
+        productsData.forEach(product => {
+            const productElement = document.createElement('div');
+            productElement.classList.add('col-12', 'col-sm-6', 'col-lg-3', 'featureCol', 'position-relative', 'mb-6');
+            productElement.innerHTML = `
+                <div class="border">
+                    <div class="imgHolder position-relative w-100 overflow-hidden">
+                        <img src="${product.image}" alt="${product.name}" class="img-fluid w-100">
+                        <ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+                            <li class="mr-2 overflow-hidden">
+                                <a href="javascript:void(0);" class="icon-heart d-block" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}" data-description="${product.description}"></a>
+                            </li>
+                            <li class="mr-2 overflow-hidden">
+                                <a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}"></a>
+                            </li>
+                            <li class="mr-2 overflow-hidden">
+                                <a href="shop-detail.html?name=${encodeURIComponent(product.name)}&price=${product.price}&image=${encodeURIComponent(product.image)}&description=${encodeURIComponent(product.description)}" class="icon-eye d-block"></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1">
+                        <span class="title d-block mb-2">
+                            <a href="shop-detail.html?name=${encodeURIComponent(product.name)}&price=${product.price}&image=${encodeURIComponent(product.image)}&description=${encodeURIComponent(product.description)}">${product.name}</a>
+                        </span>
+                        <span class="price d-block fwEbold">R$${product.price.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                </div>
+            `;
+            productListContainer.appendChild(productElement);
+        });
+    }
+
+    // Adicionar produto ao carrinho
+    document.body.addEventListener('click', function(e) {
+        if (e.target.closest('.add-to-cart-btn')) {
+            const btn = e.target.closest('.add-to-cart-btn');
+            const productName = btn.dataset.name;
+            const productPrice = parseFloat(btn.dataset.price);
+            const productImage = btn.dataset.image;
+
+            const existingItem = cart.find(item => item.name === productName);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: productName,
+                    price: productPrice,
+                    image: productImage,
+                    quantity: 1
+                });
+            }
+            saveCart();
+            alert('Produto adicionado ao carrinho!');
+        }
+    });
+
+    // Lógica para o carrinho
+    if (cartIcon) {
+        cartIcon.addEventListener('click', function(e) {
+            e.preventDefault();
+            cartPopup.style.display = 'flex';
+            renderCartItems();
+        });
+    }
+
+    if (closeCartBtn) {
+        closeCartBtn.addEventListener('click', function() {
+            cartPopup.style.display = 'none';
+        });
+    }
+
+    window.addEventListener('click', function(e) {
+        if (e.target === cartPopup) {
+            cartPopup.style.display = 'none';
+        }
+    });
+
+    cartItemsContainer.addEventListener('click', function(e) {
+        const name = e.target.dataset.name;
+        if (e.target.classList.contains('increase-quantity')) {
+            const item = cart.find(item => item.name === name);
+            if (item) {
+                item.quantity += 1;
+            }
+        } else if (e.target.classList.contains('decrease-quantity')) {
+            const item = cart.find(item => item.name === name);
+            if (item && item.quantity > 1) {
+                item.quantity -= 1;
+            }
+        } else if (e.target.classList.contains('remove-item-btn')) {
+            cart = cart.filter(item => item.name !== name);
+        }
+        saveCart();
+    });
+
+    // Lógica de favoritos
+    document.body.addEventListener('click', function(e) {
+        const heartBtn = e.target.closest('.icon-heart');
+        if (heartBtn) {
+            e.preventDefault();
+            const productName = heartBtn.dataset.name;
+            const productPrice = parseFloat(heartBtn.dataset.price);
+            const productImage = heartBtn.dataset.image;
+            const productDescription = heartBtn.dataset.description;
+
+            const existingFav = favorites.find(item => item.name === productName);
+
+            if (heartBtn.classList.contains('remove-from-favorites-btn')) {
+                favorites = favorites.filter(item => item.name !== productName);
+                alert(`"${productName}" removido dos favoritos.`);
+            } else {
+                if (existingFav) {
+                    alert(`"${productName}" já está nos favoritos!`);
+                } else {
+                    favorites.push({
+                        name: productName,
+                        price: productPrice,
+                        image: productImage,
+                        description: productDescription
+                    });
+                    alert(`"${productName}" adicionado aos favoritos!`);
+                }
+            }
+            saveFavorites();
+        }
+    });
+
+    // Lógica de carregar detalhes do produto
+    const productDetailContainer = document.getElementById('product-detail-container');
+    if (productDetailContainer) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productName = urlParams.get('name');
+        const productPrice = parseFloat(urlParams.get('price'));
+        const productImage = urlParams.get('image');
+        const productDescription = urlParams.get('description');
+
+        const product = productsData.find(p => p.name === decodeURIComponent(productName));
+
+        if (product) {
+            productDetailContainer.innerHTML = `
+                <div class="col-md-6 text-center">
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                </div>
+                <div class="col-md-6 product-info">
+                    <h1>${product.name}</h1>
+                    <p class="product-price">R$ ${product.price.toFixed(2).replace('.', ',')}</p>
+                    <p class="product-description">${product.description}</p>
+                    <div class="quantity-control">
+                        <button id="decrease-btn">-</button>
+                        <input type="text" id="quantity-input" value="1" readonly>
+                        <button id="increase-btn">+</button>
+                    </div>
+                    <button class="btn-add-to-cart" id="add-to-cart-detail-btn" 
+                            data-name="${product.name}" 
+                            data-price="${product.price}"
+                            data-image="${product.image}">
+                        Adicionar ao Carrinho
+                    </button>
+                </div>
+            `;
+
+            const quantityInput = document.getElementById('quantity-input');
+            const decreaseBtn = document.getElementById('decrease-btn');
+            const increaseBtn = document.getElementById('increase-btn');
+            const addToCartDetailBtn = document.getElementById('add-to-cart-detail-btn');
+            
+            decreaseBtn.addEventListener('click', () => {
+                let quantity = parseInt(quantityInput.value);
+                if (quantity > 1) {
+                    quantityInput.value = quantity - 1;
+                }
+            });
+
+            increaseBtn.addEventListener('click', () => {
+                let quantity = parseInt(quantityInput.value);
+                quantityInput.value = quantity + 1;
+            });
+
+            addToCartDetailBtn.addEventListener('click', () => {
+                const name = addToCartDetailBtn.dataset.name;
+                const price = parseFloat(addToCartDetailBtn.dataset.price);
+                const image = addToCartDetailBtn.dataset.image;
+                const quantity = parseInt(quantityInput.value);
+
+                const existingItem = cart.find(item => item.name === name);
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    cart.push({
+                        name: name,
+                        price: price,
+                        image: image,
+                        quantity: quantity
+                    });
+                }
+                saveCart();
+                alert(`${quantity} unidade(s) de ${name} adicionada(s) ao carrinho!`);
+            });
+        } else {
+            productDetailContainer.innerHTML = '<p class="text-center w-100">Produto não encontrado.</p>';
+        }
+    }
+
+    // Chama as funções de renderização ao carregar a página
+    renderProducts();
+    renderFavoritesList();
+    updateCartCount();
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const cartIcon = document.getElementById('cart-icon');
+    const cartPopup = document.getElementById('cart-popup');
+    const closeCartBtn = document.getElementById('close-cart-btn');
+    const cartItemsContainer = document.getElementById('cart-items-container');
+    const cartCountSpan = document.getElementById('cart-count');
+    const cartTotalSpan = document.getElementById('cart-total');
+    const productDetailContainer = document.getElementById('product-detail-container');
+    const favoritesListContainer = document.getElementById('favorites-list');
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+    function updateCartCount() {
+        if (cartCountSpan) {
+            cartCountSpan.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+        }
+    }
+
+    function renderCartItems() {
+        if (!cartItemsContainer) return;
+        cartItemsContainer.innerHTML = '';
+        let total = 0;
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p class="text-center">Seu carrinho está vazio.</p>';
+        } else {
+            cart.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.classList.add('cart-item');
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="item-info">
+                        <h4>${item.name}</h4>
+                        <p>R$ ${item.price.toFixed(2).replace('.', ',')}</p>
+                    </div>
+                    <div class="item-quantity">
+                        <button class="decrease-quantity" data-name="${item.name}">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="increase-quantity" data-name="${item.name}">+</button>
+                    </div>
+                    <button class="remove-item-btn" data-name="${item.name}">&times;</button>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+                total += item.price * item.quantity;
+            });
+        }
+        cartTotalSpan.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    }
+
+    function saveCart() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+        renderCartItems();
+    }
+    
+    function saveFavorites() {
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        if (favoritesListContainer) {
+            renderFavoritesList();
+        }
+    }
+
+    function renderFavoritesList() {
+        if (!favoritesListContainer) return;
+
+        favoritesListContainer.innerHTML = '';
+        if (favorites.length === 0) {
+            favoritesListContainer.innerHTML = '<p class="text-center w-100">Você não tem nenhum item favorito.</p>';
+        } else {
+            favorites.forEach(product => {
+                const productElement = document.createElement('div');
+                productElement.classList.add('col-12', 'col-sm-6', 'col-lg-3', 'featureCol', 'position-relative', 'mb-6');
+                productElement.innerHTML = `
+                    <div class="border">
+                        <div class="imgHolder position-relative w-100 overflow-hidden">
+                            <img src="${product.image}" alt="${product.name}" class="img-fluid w-100">
+                            <ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+                                <li class="mr-2 overflow-hidden">
+                                    <a href="javascript:void(0);" class="icon-heart d-block remove-from-favorites-btn" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}" data-description="${product.description}"></a>
+                                </li>
+                                <li class="mr-2 overflow-hidden">
+                                    <a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" 
+                                       data-name="${product.name}" 
+                                       data-price="${product.price}" 
+                                       data-image="${product.image}"></a>
+                                </li>
+                                <li class="mr-2 overflow-hidden">
+                                    <a href="shop-detail.html?name=${encodeURIComponent(product.name)}&price=${product.price}&image=${encodeURIComponent(product.image)}&description=${encodeURIComponent(product.description || '')}" class="icon-eye d-block"></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1">
+                            <span class="title d-block mb-2">
+                                <a href="shop-detail.html?name=${encodeURIComponent(product.name)}&price=${product.price}&image=${encodeURIComponent(product.image)}&description=${encodeURIComponent(product.description || '')}">${product.name}</a>
+                            </span>
+                            <span class="price d-block fwEbold">R$${product.price.toFixed(2).replace('.', ',')}</span>
+                        </div>
+                    </div>
+                `;
+                favoritesListContainer.appendChild(productElement);
+            });
+        }
+    }
+
+    // Adicionar produto ao carrinho a partir das páginas de produto e detalhes
+    document.body.addEventListener('click', function(e) {
+        if (e.target.closest('.add-to-cart-btn')) {
+            const btn = e.target.closest('.add-to-cart-btn');
+            const productName = btn.dataset.name;
+            const productPrice = parseFloat(btn.dataset.price);
+            const productImage = btn.dataset.image;
+
+            const existingItem = cart.find(item => item.name === productName);
+            const quantity = parseInt(document.getElementById('quantity-input')?.value || 1);
+
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({
+                    name: productName,
+                    price: productPrice,
+                    image: productImage,
+                    quantity: quantity
+                });
+            }
+            saveCart();
+            alert(`Produto adicionado ao carrinho!`);
+        }
+    });
+
+    // Lógica para o carrinho
+    if (cartIcon) {
+        cartIcon.addEventListener('click', function(e) {
+            e.preventDefault();
+            cartPopup.style.display = 'flex';
+            renderCartItems();
+        });
+    }
+
+    if (closeCartBtn) {
+        closeCartBtn.addEventListener('click', function() {
+            cartPopup.style.display = 'none';
+        });
+    }
+
+    window.addEventListener('click', function(e) {
+        if (e.target === cartPopup) {
+            cartPopup.style.display = 'none';
+        }
+    });
+
+    if(cartItemsContainer) {
+        cartItemsContainer.addEventListener('click', function(e) {
+            const name = e.target.dataset.name;
+            if (e.target.classList.contains('increase-quantity')) {
+                const item = cart.find(item => item.name === name);
+                if (item) {
+                    item.quantity += 1;
+                }
+            } else if (e.target.classList.contains('decrease-quantity')) {
+                const item = cart.find(item => item.name === name);
+                if (item && item.quantity > 1) {
+                    item.quantity -= 1;
+                }
+            } else if (e.target.classList.contains('remove-item-btn')) {
+                cart = cart.filter(item => item.name !== name);
+            }
+            saveCart();
+        });
+    }
+
+    // Lógica de favoritos
+    document.body.addEventListener('click', function(e) {
+        const heartBtn = e.target.closest('.icon-heart');
+        if (heartBtn) {
+            e.preventDefault();
+            const productName = heartBtn.dataset.name;
+            const productPrice = parseFloat(heartBtn.dataset.price);
+            const productImage = heartBtn.dataset.image;
+            const productDescription = heartBtn.dataset.description;
+
+            const existingFav = favorites.find(item => item.name === productName);
+
+            if (heartBtn.classList.contains('remove-from-favorites-btn')) {
+                favorites = favorites.filter(item => item.name !== productName);
+                alert(`"${productName}" removido dos favoritos.`);
+            } else {
+                if (existingFav) {
+                    alert(`"${productName}" já está nos favoritos!`);
+                } else {
+                    favorites.push({
+                        name: productName,
+                        price: productPrice,
+                        image: productImage,
+                        description: productDescription
+                    });
+                    alert(`"${productName}" adicionado aos favoritos!`);
+                }
+            }
+            saveFavorites();
+        }
+    });
+
+    // Lógica de carregar detalhes do produto na página shop-detail.html
+    if (productDetailContainer) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productName = urlParams.get('name');
+        const productPrice = parseFloat(urlParams.get('price'));
+        const productImage = urlParams.get('image');
+        const productDescription = urlParams.get('description');
+
+        if (productName && !isNaN(productPrice)) {
+            productDetailContainer.innerHTML = `
+                <div class="col-md-6 text-center">
+                    <img src="${decodeURIComponent(productImage)}" alt="${decodeURIComponent(productName)}" class="product-image">
+                </div>
+                <div class="col-md-6 product-info">
+                    <h1>${decodeURIComponent(productName)}</h1>
+                    <p class="product-price">R$ ${productPrice.toFixed(2).replace('.', ',')}</p>
+                    <p class="product-description">${decodeURIComponent(productDescription || '')}</p>
+                    <div class="quantity-control">
+                        <button id="decrease-btn">-</button>
+                        <input type="text" id="quantity-input" value="1" readonly>
+                        <button id="increase-btn">+</button>
+                    </div>
+                    <button class="btn-add-to-cart" id="add-to-cart-detail-btn" 
+                            data-name="${decodeURIComponent(productName)}" 
+                            data-price="${productPrice}"
+                            data-image="${decodeURIComponent(productImage)}">
+                        Adicionar ao Carrinho
+                    </button>
+                </div>
+            `;
+            const quantityInput = document.getElementById('quantity-input');
+            const decreaseBtn = document.getElementById('decrease-btn');
+            const increaseBtn = document.getElementById('increase-btn');
+
+            if(decreaseBtn) {
+                 decreaseBtn.addEventListener('click', () => {
+                    let quantity = parseInt(quantityInput.value);
+                    if (quantity > 1) {
+                        quantityInput.value = quantity - 1;
+                    }
+                });
+            }
+            if(increaseBtn) {
+                increaseBtn.addEventListener('click', () => {
+                    let quantity = parseInt(quantityInput.value);
+                    quantityInput.value = quantity + 1;
+                });
+            }
+        } else {
+            productDetailContainer.innerHTML = '<p class="text-center w-100">Produto não encontrado.</p>';
+        }
+    }
+
+    // Chamadas para garantir que tudo funcione ao carregar as páginas
+    updateCartCount();
+    renderFavoritesList();
+});

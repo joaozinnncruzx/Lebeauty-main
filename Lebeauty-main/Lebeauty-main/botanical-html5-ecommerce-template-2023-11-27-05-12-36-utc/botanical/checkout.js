@@ -115,9 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Funções de Pagamento (com alteração) ---
-    
-    // Evento para alternar entre os formulários de pagamento
     paymentMethodSelect.addEventListener('change', (event) => {
         if (event.target.value === 'credit') {
             creditForm.style.display = 'block';

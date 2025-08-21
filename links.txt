@@ -1,0 +1,7 @@
+home2: https://le-beauty.netlify.app/home2.html
+checkout:https://le-beauty.netlify.app/checkout.html
+cadastro: https://le-beauty.netlify.app/cadastro.html
+login: https://le-beauty.netlify.app/login.html
+order-confirmed: https://le-beauty.netlify.app/order-confirmed.html
+pagina_cliente: https://le-beauty.netlify.app/pagina_cliente.html
+shop: https://le-beauty.netlify.app/shop.html
