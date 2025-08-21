@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil - Le Beauty</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/fontawesome.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/plugins.css">
+    <link rel="stylesheet" href="css/color.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="cart-minimalist.css">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .edit-profile-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .form-control {
+            border-radius: 5px;
+        }
+        .btn-pink {
+            background-color: #FFC0CB;
+            color: white;
+            border-color: #FFC0CB;
+            font-weight: bold;
+        }
+        .btn-pink:hover {
+            background-color: #ff99ab;
+            border-color: #ff99ab;
+        }
+        .btn-secondary {
+            font-weight: bold;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="edit-profile-container">
+        <h2>Editar Perfil</h2>
+        <form action="#" method="post">
+            <div class="form-group">
+                <label for="name">Nome completo</label>
+                <input type="text" class="form-control" id="name" name="name" value="[Nome do Cliente Atual]" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="[Email do Cliente Atual]" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Telefone</label>
+                <input type="tel" class="form-control" id="phone" name="phone" value="[Telefone do Cliente]">
+            </div>
+            <div class="form-group">
+                <label for="password">Nova Senha</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Digite uma nova senha (opcional)">
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirmar Nova Senha</label>
+                <input type="password" class="form-control" id="confirm-password" name="confirm-password" placeholder="Confirme a nova senha">
+            </div>
+            <div class="d-flex justify-content-between mt-4">
+                <button type="submit" class="btn btn-pink">Salvar Alterações</button>
+                <a href="perfil.html" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
