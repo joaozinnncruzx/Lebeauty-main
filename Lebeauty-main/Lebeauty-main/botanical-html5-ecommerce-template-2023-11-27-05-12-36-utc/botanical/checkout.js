@@ -255,6 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'order-confirmed.html';
     });
     
+    
     // --- Inicialização ---
     renderCheckoutItems();
     renderAddresses();

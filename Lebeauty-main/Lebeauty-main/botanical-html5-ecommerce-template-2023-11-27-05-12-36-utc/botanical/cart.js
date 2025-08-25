@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
             updateCartUI();
             cartPopup.style.display = 'none';
         } else {
-            alert('Seu carrinho está vazio!');
+             z
         }
     });
 });
@@ -246,7 +246,6 @@ document.addEventListener('DOMContentLoaded', () => {
     checkoutBtn.addEventListener('click', () => {
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
         if (cart.length === 0) {
-            alert('Seu carrinho está vazio. Adicione itens antes de finalizar a compra.');
         } else {
             // Redireciona para a página de checkout
             window.location.href = 'checkout.html';
@@ -324,8 +323,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     quantity: 1
                 });
             }
-            saveCart();
-            alert('Produto adicionado ao carrinho!');
         }
     });
 
@@ -565,8 +562,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     quantity: 1
                 });
             }
-            saveCart();
-            alert('Produto adicionado ao carrinho!');
+          // Substitua a linha do alert por este bloco de código:
+
+const toast = document.getElementById("custom-toast");
+
+// Mostra o toast adicionando a classe 'show'
+toast.classList.add("show");
+
+// Esconde o toast após 3 segundos
+setTimeout(function(){ 
+    toast.classList.remove("show"); 
+}, 3000); // 3000ms = 3 segundos
         }
     });
 
@@ -639,7 +645,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         image: productImage,
                         description: productDescription
                     });
-                    alert(`"${productName}" adicionado aos favoritos!`);
                 }
             }
             saveFavorites();
@@ -908,8 +913,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     quantity: 1
                 });
             }
-            saveCart();
-            alert('Produto adicionado ao carrinho!');
         }
     });
 
@@ -977,7 +980,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         image: productImage,
                         description: productDescription
                     });
-                    alert(`"${productName}" adicionado aos favoritos!`);
                 }
             }
             saveFavorites();
@@ -1191,8 +1193,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     quantity: quantity
                 });
             }
-            saveCart();
-            alert(`Produto adicionado ao carrinho!`);
         }
     });
 
@@ -1262,7 +1262,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         image: productImage,
                         description: productDescription
                     });
-                    alert(`"${productName}" adicionado aos favoritos!`);
+                   const toast = document.getElementById("custom-toast");
+
+// Mostra o toast adicionando a classe 'show'
+toast.classList.add("show");
+
+// Esconde o toast após 3 segundos
+setTimeout(function(){ 
+    toast.classList.remove("show"); 
+}, 3000); // 3000ms = 3 segundos
                 }
             }
             saveFavorites();
@@ -1325,4 +1333,214 @@ document.addEventListener('DOMContentLoaded', function() {
     // Chamadas para garantir que tudo funcione ao carregar as páginas
     updateCartCount();
     renderFavoritesList();
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+    // ===== SELETORES DE ELEMENTOS =====
+    const cartIcon = document.getElementById('cart-icon');
+    const cartPopup = document.getElementById('cart-popup');
+    const closeCartBtn = document.getElementById('close-cart-btn');
+    const cartItemsContainer = document.getElementById('cart-items-container');
+    const cartTotalElement = document.getElementById('cart-total');
+    const cartCountElement = document.getElementById('cart-count');
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+    const checkoutButton = document.getElementById('checkout-btn');
+
+    // Elementos do Pop-up de Notificação (Toast)
+    const customToast = document.getElementById('custom-toast');
+    const toastMessage = document.getElementById('toast-message');
+
+    // ===== ESTADO DO CARRINHO =====
+    // Tenta carregar o carrinho do localStorage. Se não existir, começa com um array vazio.
+    let cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+
+    // ===== FUNÇÕES PRINCIPAIS =====
+
+    /**
+     * Salva o estado atual do carrinho no localStorage.
+     */
+    function saveCart() {
+        localStorage.setItem('shoppingCart', JSON.stringify(cart));
+    }
+
+    /**
+     * Adiciona um produto ao carrinho ou incrementa sua quantidade.
+     * @param {string} name - Nome do produto.
+     * @param {number} price - Preço do produto.
+     * @param {string} image - URL da imagem do produto.
+     */
+    function addToCart(name, price, image) {
+        // Verifica se o item já existe no carrinho
+        const existingItem = cart.find(item => item.name === name);
+
+        if (existingItem) {
+            // Se existir, aumenta a quantidade
+            existingItem.quantity++;
+        } else {
+            // Se não, adiciona o novo item com quantidade 1
+            cart.push({ name, price, image, quantity: 1 });
+        }
+        
+        saveCart(); // Salva o carrinho no localStorage
+        updateCartUI(); // Atualiza a interface do carrinho
+        showToast(`'${name}' foi adicionado ao carrinho!`); // Mostra a notificação
+    }
+
+    /**
+     * Remove um item do carrinho.
+     * @param {string} name - Nome do produto a ser removido.
+     */
+    function removeFromCart(name) {
+        cart = cart.filter(item => item.name !== name);
+        saveCart();
+        updateCartUI();
+    }
+
+    /**
+     * Atualiza a quantidade de um item no carrinho.
+     * @param {string} name - Nome do produto.
+     * @param {number} quantity - Nova quantidade.
+     */
+    function updateQuantity(name, quantity) {
+        const item = cart.find(item => item.name === name);
+        if (item) {
+            item.quantity = quantity;
+            if (item.quantity <= 0) {
+                removeFromCart(name); // Remove se a quantidade for 0 ou menor
+            } else {
+                saveCart();
+                updateCartUI();
+            }
+        }
+    }
+    
+    /**
+     * Atualiza toda a interface do carrinho (pop-up, total e contador).
+     */
+    function updateCartUI() {
+        cartItemsContainer.innerHTML = ''; // Limpa os itens atuais
+        let total = 0;
+        let totalItems = 0;
+
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p class="text-center">Seu carrinho está vazio.</p>';
+        } else {
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                totalItems += item.quantity;
+
+                // Cria o HTML para cada item no carrinho
+                const cartItemHTML = `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                        <div class="cart-item-details">
+                            <p class="cart-item-name">${item.name}</p>
+                            <p class="cart-item-price">R$ ${parseFloat(item.price).toFixed(2).replace('.', ',')}</p>
+                            <div class="cart-item-quantity">
+                                <label>Qtd: </label>
+                                <input type="number" value="${item.quantity}" min="1" class="quantity-input" data-name="${item.name}">
+                            </div>
+                        </div>
+                        <button class="remove-item-btn" data-name="${item.name}">&times;</button>
+                    </div>
+                `;
+                cartItemsContainer.innerHTML += cartItemHTML;
+            });
+        }
+        
+        // Atualiza o valor total e o contador no ícone
+        cartTotalElement.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        cartCountElement.innerText = totalItems;
+        cartCountElement.style.display = totalItems > 0 ? 'block' : 'none'; // Mostra/esconde o contador
+    }
+
+    /**
+     * Mostra uma notificação (toast) na tela.
+     * @param {string} message - A mensagem a ser exibida.
+     */
+    function showToast(message) {
+        if (customToast && toastMessage) {
+            toastMessage.innerText = message;
+            customToast.classList.add('show');
+            // Esconde o toast após 3 segundos
+            setTimeout(() => {
+                customToast.classList.remove('show');
+            }, 3000);
+        }
+    }
+
+    // ===== EVENT LISTENERS (OUVINTES DE EVENTOS) =====
+    
+    // Abrir o pop-up do carrinho
+    if (cartIcon) {
+        cartIcon.addEventListener('click', (e) => {
+            e.preventDefault();
+            cartPopup.style.display = 'block';
+        });
+    }
+
+    // Fechar o pop-up do carrinho
+    if (closeCartBtn) {
+        closeCartBtn.addEventListener('click', () => {
+            cartPopup.style.display = 'none';
+        });
+    }
+    
+    // Fechar o pop-up clicando fora dele
+    if (cartPopup) {
+        cartPopup.addEventListener('click', (e) => {
+            if (e.target === cartPopup) {
+                cartPopup.style.display = 'none';
+            }
+        });
+    }
+
+    // Adicionar item ao clicar nos botões "Adicionar ao Carrinho"
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const name = button.dataset.name;
+            const price = parseFloat(button.dataset.price);
+            const image = button.dataset.image;
+            addToCart(name, price, image);
+        });
+    });
+
+    // Event listener para os botões de remover e inputs de quantidade (usando delegação de evento)
+    cartItemsContainer.addEventListener('click', (e) => {
+        // Se o clique foi no botão de remover
+        if (e.target.classList.contains('remove-item-btn')) {
+            const name = e.target.dataset.name;
+            removeFromCart(name);
+        }
+    });
+
+    cartItemsContainer.addEventListener('change', (e) => {
+        // Se o valor do input de quantidade mudou
+        if (e.target.classList.contains('quantity-input')) {
+            const name = e.target.dataset.name;
+            const quantity = parseInt(e.target.value, 10);
+            updateQuantity(name, quantity);
+        }
+    });
+
+    // Botão de Finalizar Compra
+    if (checkoutButton) {
+        checkoutButton.addEventListener('click', () => {
+            if (cart.length > 0) {
+                // Redireciona para a página de checkout.
+                // Os dados do carrinho estarão salvos no localStorage para serem usados lá.
+                window.location.href = 'checkout.html'; // Mude para o nome da sua página de checkout
+            } else {
+
+            }
+        });
+    }
+
+    // ===== INICIALIZAÇÃO =====
+    // Atualiza a UI do carrinho assim que a página carrega para mostrar os itens já salvos.
+    updateCartUI();
+});
+    
 });

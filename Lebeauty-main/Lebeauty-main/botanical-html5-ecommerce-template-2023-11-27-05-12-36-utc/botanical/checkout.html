@@ -267,6 +267,124 @@
 </html>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // ... (rest of your existing code remains the same)
+
+    const zipInput = document.getElementById('address-zip');
+    const streetInput = document.getElementById('address-street');
+    const neighborhoodInput = document.getElementById('address-neighborhood');
+    const cityInput = document.getElementById('address-city');
+    const stateInput = document.getElementById('address-state');
+
+    // --- LÓGICA DE AUTOCOMPLETAR ENDEREÇO PELO CEP ---
+    zipInput.addEventListener('blur', function() {
+        const cep = zipInput.value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+        if (cep.length === 8) {
+            // Faz a requisição para a API da ViaCEP
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.erro) {
+                        streetInput.value = data.logradouro;
+                        neighborhoodInput.value = data.bairro;
+                        cityInput.value = data.localidade;
+                        stateInput.value = data.uf;
+                    } else {
+                        alert('CEP não encontrado. Por favor, digite o endereço manualmente.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar o CEP:', error);
+                    alert('Erro na busca do CEP. Verifique sua conexão ou tente novamente.');
+                });
+        }
+    });
+
+    // ... (rest of your existing code remains the same)
+
+    // --- LÓGICA DE GERENCIAMENTO DE ENDEREÇOS ---
+    function removeAddress(indexToRemove) {
+        let addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+        addresses.splice(indexToRemove, 1);
+        localStorage.setItem('addresses', JSON.stringify(addresses));
+        loadAddresses();
+    }
+    
+    function loadAddresses() {
+        const addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+        addressList.innerHTML = ''; 
+
+        if (addresses.length === 0) {
+            addressList.innerHTML = '<li class="list-group-item">Nenhum endereço cadastrado.</li>';
+        } else {
+            addresses.forEach((address, index) => {
+                const addressElement = document.createElement('li');
+                addressElement.className = 'list-group-item';
+                addressElement.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="shippingAddress" id="address${index}" value="${index}" ${index === 0 ? 'checked' : ''}>
+                            <label class="form-check-label" for="address${index}">
+                                <strong>${address.street}, ${address.number}</strong> - ${address.neighborhood || ''}<br>
+                                ${address.city}, ${address.state} - CEP: ${address.zip}<br>
+                                <small>${address.complement || ''}</small>
+                            </label>
+                        </div>
+                        <button class="btn btn-danger btn-sm remove-address-btn" data-index="${index}">Remover</button>
+                    </div>
+                `;
+                addressList.appendChild(addressElement);
+            });
+        }
+    }
+
+    addAddressBtn.addEventListener('click', () => {
+        addressForm.style.display = 'block';
+        addAddressBtn.style.display = 'none';
+        addressList.style.display = 'none';
+    });
+
+    cancelAddressBtn.addEventListener('click', () => {
+        addressForm.style.display = 'none';
+        addressForm.reset();
+        addAddressBtn.style.display = 'block';
+        addressList.style.display = 'block';
+    });
+
+    addressForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const newAddress = {
+            street: document.getElementById('address-street').value,
+            number: document.getElementById('address-number').value,
+            complement: document.getElementById('address-complement').value,
+            neighborhood: document.getElementById('address-neighborhood').value, // Campo Bairro
+            city: document.getElementById('address-city').value,
+            state: document.getElementById('address-state').value,
+            zip: document.getElementById('address-zip').value
+        };
+        const addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+        addresses.push(newAddress);
+        localStorage.setItem('addresses', JSON.stringify(addresses));
+        addressForm.reset();
+        addressForm.style.display = 'none';
+        addressList.style.display = 'block';
+        loadAddresses();
+    });
+
+    addressList.addEventListener('click', function(event) {
+        if (event.target.classList.contains('remove-address-btn')) {
+            const index = parseInt(event.target.dataset.index, 10);
+            if (confirm('Tem certeza que deseja remover este endereço?')) {
+                removeAddress(index);
+            }
+        }
+    });
+
+    // ... (rest of your existing code remains the same)
+});
+</script>
+
+<script>
 document.addEventListener('DOMContentLoaded', function() {
     // --- ELEMENTOS DO DOM ---
     const summaryList = document.getElementById('order-summary-list');

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/fontawesome.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/plugins.css">
+    <link rel="stylesheet" href="css/color.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="cart-minimalist.css">
+
+     <style>
+        .form-control {
+            background-color: white !important;
+            border-color: #ced4da;
+        }
+        
+        .form-control:focus {
+            border-color: #FFC0CB !important;
+            box-shadow: none !important;
+        }
+
+        .btn-success {
+            border-color: #FFC0CB !important;
+            background-color: #FFC0CB !important;
+            color: #fff;
+        }
+
+        /* Estilos adicionados */
+        .headerHolderCol {
+            background-color: #FFC0CB !important;
+        }
+        .logo img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Estilos para o campo de pesquisa */
+        .headerHolder {
+            position: relative;
+        }
+
+        /* Novo estilo para descer os ícones */
+        .lang-currency-icons {
+            margin-top: 10px; 
+        }
+
+         .form-control {
+            /* ... seus estilos existentes ... */
+        }
+
+        /* ===== ESTILOS PARA O NOVO POP-UP (COLE AQUI) ===== */
+        .custom-toast {
+          visibility: hidden; /* Começa escondido */
+          opacity: 0;
+          min-width: 280px;
+          background-color: #FFC0CB; /* A cor rosa principal do seu site */
+          color: #020202; /* Texto branco para contrastar */
+          text-align: center;
+          border-radius: 15px;
+          padding: 16px;
+          position: fixed; /* Fica fixo na tela, mesmo com rolagem */
+          z-index: 1050; /* Garante que fique sobre outros elementos */
+          left: 50%;
+          transform: translateX(-50%); /* Centraliza horizontalmente */
+          bottom: 30px; /* Posição na parte inferior da tela */
+          font-size: 1rem;
+          font-weight: 500;
+          box-shadow: 15px 30px 15px rgba(0,0,0,0.2);
+          transition: opacity 0.5s, visibility 0.5s, bottom 0.5s; /* Animação suave */
+        }
+
+        /* Classe que será adicionada via JavaScript para mostrar o pop-up */
+        .custom-toast.show {
+          visibility: visible;
+          opacity: 1;
+          bottom: 50px; /* Efeito de "subir" ao aparecer */
+        }
+        /* ======================================================= */
+
+        
+    </style>
+</head>
+<body>
+	<!-- pageWrapper -->
+	<div id="pageWrapper">
+		<!-- header -->
+		<header id="header" class="position-relative">
+			<!-- headerHolderCol -->
+			<div class="headerHolderCol pt-lg-4 pb-lg-5 py-3">
+				<div class="container">
+					<div class="row">
+						<div class="col-12 col-sm-4">
+							<a href="javascript:void(0);" class="tel d-flex align-items-end"><i class="icon-call mr-2"></i>  Telefone para contato: (41) 9 8846-3759</a>
+						</div>
+						<div class="col-12 col-sm-4 text-center">
+							<span class="txt d-block">Bem vindo ao Le beauty</span>
+						</div>
+						<div class="col-12 col-sm-4">
+							<!-- langListII -->
+							<ul class="nav nav-tabs langListII justify-content-end border-bottom-0">
+								<li class="dropdown">
+									<span>Moeda: </span>
+									<a class="d-inline dropdown-toggle text-uppercase" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="true" aria-expanded="false">R$</a>
+									<div class="dropdown-menu text-uppercase pl-4 pr-4 border-0">
+										<a class="dropdown-item" href="javascript:void(0);">R$</a>		
+									</div>
+								</li>
+								<li class="dropdown m-0">
+									<span>Idioma: </span>
+									<a class="d-inline dropdown-toggle text-uppercase" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="true" aria-expanded="false">BR</a>
+									<div class="dropdown-menu pl-4 pr-4">
+										<a class="dropdown-item" href="javascript:void(0);">Portugês</a>	
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="headerHolder container pt-lg-5 pb-lg-7 py-4">
+                <div class="row">
+                    <div class="col-6 col-sm-2">
+                        <div class="logo">
+                            </div>
+						</div>
+					<div class="col-6 col-sm-7 col-lg-8 static-block">
+                        <div class="mainHolder pt-lg-5 pt-3 justify-content-center">
+                            <nav class="navbar navbar-expand-lg navbar-light p-0 pageNav2 position-static">
+                                <button type="button" class="navbar-toggle collapsed position-relative" data-toggle="collapse" data-target="#navbarNav" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+								<div class="collapse navbar-collapse" id="navbarNav">
+									<ul class="navbar-nav mx-auto text-uppercase d-inline-block">
+										
+										<li class="nav-item">
+											<a class="d-block" href="home2.html">Página inicial</a>
+										</li>
+										<li class="nav-item">
+                                            <a class="d-block" href="favorites.html">Meus Favoritos</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="d-block" href="pagina_cliente.html">Página do Cliente</a>
+                                        </li>
+										  <li class="nav-item dropdown">
+        <a class="d-block dropdown-toggle"  href="#" id="marcasDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Marcas
+        </a>
+        <div class="dropdown-menu" aria-labelledby="marcasDropdown">
+            <a class="dropdown-item" href="nars.html">Nars</a>
+            <a class="dropdown-item" href="chanel.html">Chanel</a>
+            <a class="dropdown-item" href="fentybeauty.html">Fenty Beauty</a>
+            <a class="dropdown-item" href="dior.html">Dior</a>
+            <a class="dropdown-item" href="lancome.html">Lancôme</a>
+            <a class="dropdown-item" href="YSL.html">YSL</a>
+            <a class="dropdown-item" href="fran.html">Fran</a>
+        </div>
+										</li>
+									</ul>
+								</div>
+							</nav>
+						</div>
+					</div>
+					<div class="col-sm-3 col-lg-2">
+                        <ul class="nav nav-tabs wishListII pt-5 justify-content-end border-bottom-0">
+                            <li class="nav-item"><a href="#" id="cart-icon" class="text-secondary"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span id="cart-count" class="badge badge-danger badge-pill">0</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+		</header>
+
+		<div id="cart-popup" class="cart-popup-overlay">
+            <div class="cart-popup-content">
+                <div class="cart-popup-header">
+                    <h2>Seu Carrinho de Compras</h2>
+                    <span id="close-cart-btn">&times;</span>
+                </div>
+                <div class="cart-items" id="cart-items-container">
+                    </div>
+                <div class="cart-summary">
+                    <p>Total: <span id="cart-total">R$ 0.00</span></p>
+                    <button class="btn btn-primary" id="checkout-btn">Finalizar Compra</button>
+                </div>
+            </div>
+        </div>
+
+		<!-- main -->
+		<main>
+			<!-- introBannerHolder -->
+			<section class="introBannerHolder d-flex w-100 bgCover" style="background-image: url(http://placehold.it/1920x300);">
+				<div class="container">
+					<div class="row">
+						<div class="col-12 pt-lg-23 pt-md-15 pt-sm-10 pt-6 text-center">
+							<h1 class="headingIV fwEbold playfair mb-4">Fenty Beauty
+							<ul class="list-unstyled breadCrumbs d-flex justify-content-center">
+								<li class="mr-2"><a href="home.html"></a></li>
+								<li class="mr-2">produtos</li>
+								<li class="active"></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- twoColumns -->
+			<div class="twoColumns container pt-lg-23 pb-lg-20 pt-md-16 pb-md-4 pt-10 pb-4">
+				<div class="row">
+					<div class="col-12 col-lg-9 order-lg-3">
+						<!-- content -->
+						<article id="content">
+							<!-- show-head -->
+							<header class="show-head d-flex flex-wrap justify-content-between mb-7">
+								<ul class="list-unstyled viewFilterLinks d-flex flex-nowrap align-items-center">
+									<li class="mr-2"><a href="javascript:void(0);" class="active"><i class="fas fa-th-large"></i></a></li>
+									<li class="mr-2"><a href="javascript:void(0);"><i class="fas fa-list"></i></a></li>
+									<li class="mr-2">Showing 1–9 of 24 results</li>
+								</ul>
+								<!-- sortGroup -->
+								<div class="sortGroup">
+									<div class="d-flex flex-nowrap align-items-center">
+									
+											</ul>
+										</div>
+									</div>
+								</div>
+							</header>
+							<div class="row">
+								<!-- featureCol -->
+								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
+									<div class="border">
+										<div class="imgHolder position-relative w-100 overflow-hidden">
+											<img src="images/fenty beauty/base de longa duração soft lit naturally luminous.jpg" alt="image description" class="img-fluid w-100">
+											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" data-name="Paleta de Sombra" data-price="68.00"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
+												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
+											</ul>
+										</div>
+										<div class="text-center py-5 px-4">
+											<span class="title d-block mb-2"><a href="shop-detail.html">Paleta de Sombra</a></span>
+											<span class="price d-block fwEbold"><del>R$ 80,50</del>R$ 68,00</span>
+											<span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">HOT</span>
+											<span class="hotOffer green fwEbold text-uppercase text-white position-absolute d-block ml-8">Sale</span>
+										</div>
+									</div>
+								</div>
+								<!-- featureCol -->
+								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
+									<div class="border">
+										<div class="imgHolder position-relative w-100 overflow-hidden">
+											<img src="images/fenty beauty/brow mvp ultra fine brow pencil & styler.jpg" alt="Blush" class="img-fluid w-100">
+											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" data-name="Lip Balm" data-price="58.00"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
+												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
+											</ul>
+										</div>
+										<div class="text-center py-5 px-4">
+											<span class="title d-block mb-2"><a href="shop-detail.html">Lip Balm</a></span>
+											<span class="price d-block fwEbold">R$ 58,00</span>
+										</div>
+									</div>
+								</div>
+								<!-- featureCol -->
+								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
+									<div class="border">
+										<div class="imgHolder position-relative w-100 overflow-hidden">
+											<img src="images/fenty beauty/cheeks out freestyle cream blush.avif" alt="image description" class="img-fluid w-100">
+											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" data-name="Corretivo YSL" data-price="319.00"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
+												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
+											</ul>
+										</div>
+										<div class="text-center py-5 px-4">
+											<span class="title d-block mb-2"><a href="shop-detail.html">Lip Honey</a></span>
+											<span class="price d-block fwEbold">60.00 $</span>
+											<span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">HOT</span>
+										</div>
+									</div>
+								</div>
+								<!-- featureCol -->
+								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
+									<div class="border">
+										<div class="imgHolder position-relative w-100 overflow-hidden">
+											<img src="images/fenty beauty/diamond bomb all over diamond veil.avif" alt="image description" class="img-fluid w-100">
+											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" data-name="Corretivo YSL" data-price="319.00"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
+												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
+											</ul>
+										</div>
+										<div class="text-center py-5 px-4">
+											<span class="title d-block mb-2"><a href="shop-detail.html">Base liquida</a></span>
+											<span class="price d-block fwEbold"><del>80.50 $</del>68.00 $</span>
+											<span class="hotOffer green fwEbold text-uppercase text-white position-absolute d-block">Sale</span>
+										</div>
+									</div>
+								</div>
+								<!-- featureCol -->
+								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
+									<div class="border">
+										<div class="imgHolder position-relative w-100 overflow-hidden">
+											<img src="images/fenty beauty/eaze drop blur.jpg" alt="image description" class="img-fluid w-100">
+											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" data-name="Corretivo YSL" data-price="319.00"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
+												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
+											</ul>
+										</div>
+										<div class="text-center py-5 px-4">
+											<span class="title d-block mb-2"><a href="shop-detail.html">Base em Bastão</a></span>
+											<span class="price d-block fwEbold">58.00 $</span>
+											<span class="hotOffer green fwEbold text-uppercase text-white position-absolute d-block">Sale</span>
+										</div>
+									</div>
+								</div>
+								<!-- featureCol -->
+								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
+									<div class="border">
+										<div class="imgHolder position-relative w-100 overflow-hidden">
+											<img src="images/fenty beauty/eaze drop leve desfocante pele tint.jpg" alt="image description" class="img-fluid w-100">
+											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" data-name="Corretivo YSL" data-price="319.00"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
+												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
+											</ul>
+										</div>
+										<div class="text-center py-5 px-4">
+											<span class="title d-block mb-2"><a href="shop-detail.html">Batom</a></span>
+											<span class="price d-block fwEbold">60.00 $</span>
+											<span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">HOT</span>
+										</div>
+									</div>
+								</div>
+								<!-- featureCol -->
+								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
+									<div class="border">
+										<div class="imgHolder position-relative w-100 overflow-hidden">
+											<img src="images/fenty beauty/fenty cheeks suede powder blush.png" alt="image description" class="img-fluid w-100">
+											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" data-name="Corretivo YSL" data-price="319.00"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
+												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
+											</ul>
+										</div>
+										<div class="text-center py-5 px-4">
+											<span class="title d-block mb-2"><a href="shop-detail.html">Cilios postiço</a></span>
+											<span class="price d-block fwEbold">68.00 $</span>
+										</div>
+									</div>
+								</div>
+								<!-- featureCol -->
+								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
+									<div class="border">
+										<div class="imgHolder position-relative w-100 overflow-hidden">
+											<img src="images/fenty beauty/flyliner longwear liquid eyeliner.jpg" alt="image description" class="img-fluid w-100">
+											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" data-name="Corretivo YSL" data-price="319.00"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
+												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
+											</ul>
+										</div>
+										<div class="text-center py-5 px-4">
+											<span class="title d-block mb-2"><a href="shop-detail.html"></a></span>
+											<span class="title d-block mb-2"><a href="shop-detail.html">Cilios postiço</a></span>
+											<span class="price d-block fwEbold">58.00 $</span>
+											<span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">Hot</span>
+										</div>
+									</div>
+								</div>
+								<!-- featureCol -->
+								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
+									<div class="border">
+										<div class="imgHolder position-relative w-100 overflow-hidden">
+											<img src="images/fenty beauty/flypencil longwear pencil eyeliner.avif" alt="image description" class="img-fluid w-100">
+											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" data-name="Corretivo YSL" data-price="319.00"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
+												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
+											</ul>
+										</div>
+										<div class="text-center py-5 px-4">
+											<span class="title d-block mb-2"><a href="shop-detail.html">Corretivo2</a></span>
+											<span class="price d-block fwEbold"><del>80.50 $</del>68.00 $</span>
+											<span class="hotOffer green fwEbold text-uppercase text-white position-absolute d-block">Sale</span>
+										</div>
+									</div>
+								</div>
+								<!-- featureCol -->
+								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
+									<div class="border">
+										<div class="imgHolder position-relative w-100 overflow-hidden">
+											<img src="images/fenty beauty/gloss bomb heat universal lip luminizer.jpg" alt="image description" class="img-fluid w-100">
+											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" data-name="Corretivo YSL" data-price="319.00"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
+												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
+											</ul>
+										</div>
+										<div class="text-center py-5 px-4">
+											<span class="title d-block mb-2"><a href="shop-detail.html">Corretivo3</a></span>
+											<span class="price d-block fwEbold"><del>80.50 $</del>68.00 $</span>
+											<span class="hotOffer green fwEbold text-uppercase text-white position-absolute d-block">Sale</span>
+										</div>
+									</div>
+								</div>
+								<!-- featureCol -->
+								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
+									<div class="border">
+										<div class="imgHolder position-relative w-100 overflow-hidden">
+											<img src="images/fenty beauty/gloss bomb oil luminizing lip oil n gloss.jpg" alt="image description" class="img-fluid w-100">
+											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" data-name="Corretivo YSL" data-price="319.00"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
+												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
+											</ul>
+										</div>
+										<div class="text-center py-5 px-4">
+											<span class="title d-block mb-2"><a href="shop-detail.html">Corretivo4</a></span>
+											<span class="price d-block fwEbold">58.00 $</span>
+										</div>
+									</div>
+								</div>
+								<!-- featureCol -->
+								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
+									<div class="border">
+										<div class="imgHolder position-relative w-100 overflow-hidden">
+											<img src="images/fenty beauty/gloss bomb stix high shine gloss stick.jpg" alt="image description" class="img-fluid w-100">
+											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block add-to-cart-btn" data-name="Corretivo YSL" data-price="319.00"></a></li>
+												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
+												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
+											</ul>
+										</div>
+										<div class="text-center py-5 px-4">
+											<span class="title d-block mb-2"><a href="shop-detail.html">Corretivo5</a></span>
+											<span class="price d-block fwEbold">58.00 $</span>
+											<span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">Hot</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-12 pt-3 mb-lg-0 mb-md-6 mb-3">
+									<!-- pagination -->
+									<ul class="list-unstyled pagination d-flex justify-content-center align-items-end">
+    									<li><a href="javascript:void(0);"><i class="fas fa-chevron-left"></i></a></li>
+    									<li class="active"><a href="javascript:void(0);">1</a></li>
+    									<li><a href="shop">2</a></li>
+    									<li>...</li>
+    									<li><a href="javascript:void(0);"><i class="fas fa-chevron-right"></i></a></li>
+									</ul>
+								</div>
+							</div>
+						</article>
+					</div>
+					<div class="col-12 col-lg-3 order-lg-1">
+						<!-- sidebar -->
+						<aside id="sidebar">
+							<!-- widget -->
+							<section class="widget overflow-hidden mb-9">
+								
+								</form>
+							</section>
+							<!-- widget -->
+							<section class="widget overflow-hidden mb-9">
+								<h3 class="headingVII fwEbold text-uppercase mb-5">Marcas parceiras</h3>
+								<ul class="list-unstyled categoryList mb-0">
+									<li class="mb-5 overflow-hidden"><a href="javascript:void(0);">FRAN by FR 
+									<li class="mb-5 overflow-hidden"><a href="javascript:void(0);">Dior
+									<li class="mb-4 overflow-hidden"><a href="javascript:void(0);">Yves Saint Laurent
+									<li class="mb-5 overflow-hidden"><a href="javascript:void(0);">Chanel
+									<li class="overflow-hidden"><a href="javascript:void(0);">Uncategorized 
+								</ul>
+							</section>
+							<!-- widget -->
+							<section class="widget mb-9">
+							
+									</div>
+								</form>
+							</section>
+							<!-- widget -->
+							<section class="widget mb-9">
+								
+									</li>
+								</ul>
+							</section>
+							<!-- widget -->
+							<section class="widget mb-9">
+								
+								
+							</section>
+						</aside>
+					</div>
+				</div>
+			</div>
+			<!-- footerHolder -->
+			<aside class="footerHolder overflow-hidden bg-lightGray pt-xl-23 pb-xl-8 pt-lg-10 pb-lg-8 pt-md-12 pb-md-8 pt-10">
+				<div class="container">
+					<div class="row">
+						<div class="col-12 col-sm-6 col-lg-4 mb-lg-0 mb-4">
+							<h3 class="headingVI fwEbold text-uppercase mb-7">Contate-nos</h3>
+							<ul class="list-unstyled footerContactList mb-3">
+								<li class="mb-3 d-flex flex-nowrap pr-xl-20 pr-0"><span class="icon icon-place mr-3"></span> <address class="fwEbold m-0">Endereço: R. Rio Xingú, 1172 - Iguaçu, Fazenda Rio Grande - PR, 83833-542.</address></li>
+								<li class="mb-3 d-flex flex-nowrap"><span class="icon icon-phone mr-3"></span> <span class="leftAlign">Número : <a href="javascript:void(0);">(41) 9 8846-3759</a></span></li>
+								<li class="email d-flex flex-nowrap"><span class="icon icon-email mr-2"></span> <span class="leftAlign">Email:  <a href="javascript:void(0);">lebeautystore@gmail.com</a></span></li>
+							</ul>
+							<ul class="list-unstyled followSocailNetwork d-flex flex-nowrap">
+								<li class="fwEbold mr-xl-11 mr-md-8 mr-3">Siga-nos:</li>
+								<li class="mr-xl-6 mr-md-5 mr-2"><a href="javascript:void(0);" class="fab fa-instagram"></a></li>
+							</ul>
+						</div>
+						
+						</div>
+					</div>
+				</div>
+			</aside>
+		</main>
+		<!-- footer -->
+		<footer id="footer" class="overflow-hidden bg-dark">
+			<div class="container">
+				<div class="row">
+					<div class="col-12 copyRightHolder v-II text-center pt-md-3 pb-md-4 py-2">
+						<p class="mb-0">Coppyright 2019 by <a href="javascript:void(0);">Botanical Store</a> - All right reserved</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+
+	<script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jqueryCustome.js"></script>
+    <script src="cart.js"></script>
+</body>
+</html>
